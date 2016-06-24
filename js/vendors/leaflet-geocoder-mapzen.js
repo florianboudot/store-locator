@@ -1,5 +1,7 @@
 /*
- * leaflet-geocoder-mapzen version 1.5.2 (modified by florian boudot)
+ * (modified by Florian Boudot) // todo remove hacks from file
+ *
+ * leaflet-geocoder-mapzen version 1.5.2
  * Leaflet plugin to search (geocode) using Mapzen Search or your
  * own hosted version of the Pelias Geocoder API.
  *

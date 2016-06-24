@@ -1,5 +1,6 @@
-var getTpl = require("../libs/get-tpl").default;
-var device = require("../base/basics").getDevice;
+var getTpl = require("./libs/get-tpl").default;
+var device = require("./base/basics").getDevice;
+
 
 var mStoreLocator = (function () {
     // SETTINGS
