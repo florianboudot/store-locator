@@ -1,9 +1,13 @@
 <?php include('inc/html.php'); ?>
 <head>
-    <?php include('inc/head.php'); ?>
+    <meta charset="UTF-8">
+    <title>Store locator demo</title>
+    <!--[if (gt IE 8) | (IEMobile)]><!-->
+    <link rel="stylesheet" href="styles/all.css" >
+    <!--<![endif]-->
 </head>
 <body>
-<?php include('inc/layout/header.php'); ?>
+
 <div class="main-container">
 
     <!-- STORE LOCATOR -->
@@ -18,22 +22,9 @@
             </div>
         </div>
     </div>
-
-    <!-- MODULE M03 -->
-    <div class="section section-medium section-spacing-medium section-bg section-large mod-full">
-        <div class="section-inner">
-            <div class="section-content">
-                <div class="section-large-small">
-                    <?php include 'inc/modules/module-M03.php'; ?>
-                </div>
-            </div>
-        </div>
-        <?php include 'inc/layout/footer.php'; ?>
-    </div>
 </div>
 
 
-<?php include('inc/debug.inc.php'); ?>
 
 <!-- SCRIPTS -->
 <?php include 'inc/scripts.php'; ?>
