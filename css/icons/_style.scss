@@ -9,6 +9,132 @@
     font-weight: normal;
     font-style: normal;
 }
+[class^="icon-"], [class*=" icon-"] {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.very-big-icon {
+    width: 70px;
+    height: 70px;
+    &:before {
+        font-size: 70px;
+    }
+}
+
+.big-icon {
+    width: 40px;
+    height: 40px;
+    &:before {
+        font-size: 40px;
+    }
+}
+
+.medium-icon {
+    width: 30px;
+    height: 30px;
+    &:before {
+        font-size: 30px;
+    }
+}
+
+.thin-icon {
+    width: 21px;
+    height: 20px;
+    &:before {
+        font-size: 20px;
+    }
+}
+
+.icon-OuiDoo {
+    &:hover {
+        &:before {
+            color: $color-legrand;
+        }
+    }
+
+}
+
+.icon-add-list-empty-thin {
+    &:hover {
+        &:before {
+            color: $color-legrand;
+        }
+    }
+    &.active {
+        &:before {
+            content: "\e93f";
+            color: $color-black;
+        }
+    }
+}
+
+.icon-add-list {
+    &:hover {
+        &:before {
+            content: "\e938";
+            color: $color-legrand;
+        }
+    }
+}
+
+
+.icon-localisation-empty-thin {
+    &:hover {
+        &:before {
+            content: "\e936";
+            color: $color-legrand;
+        }
+    }
+}
+
+.icon-square-empty {
+    &:hover {
+        &:before {
+            content: "\e932";
+            color: $color-legrand;
+        }
+    }
+}
+
+.icon-application {
+    //width: 50px;
+    //height: 50px;
+    &:before {
+        color: $color-legrand;
+    }
+}
+
+.icon-formation {
+    &:before {
+        color: $color-legrand;
+    }
+    &:hover {
+        &:before {
+            color: $color-black;
+        }
+    }
+}
+
+.icon-foursquare-empty {
+    &:hover, &.active {
+        &:before {
+            content: "\e941";
+            color: $color-legrand;
+        }
+    }
+}
+
+.icon-list-empty {
+    &:hover,&.active {
+        &:before {
+            content: "\e93f";
+            color: $color-legrand;
+        }
+    }
+}
+
 [class^="icon-"], [class*=" icon-"], .icon-font {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icons' !important;

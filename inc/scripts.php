@@ -15,42 +15,4 @@
     <script type="text/javascript" src="scripts/bundle.js"></script>
 <?php endif ?>
 
-<script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Organization",
-      "url": "http://www.legrand.fr/",
-      "logo": "http://www.legrand.fr/logo.jpg"
-    }
-</script>
-<script type="application/ld+json">
-{ "@context" : "http://schema.org",
-  "@type" : "Organization",
-  "url" : "http://www.legrand.Fr/",
-  "contactPoint" : [
-    { "@type" : "ContactPoint",
-      "telephone" : "0825 360 360",
-      "contactType" : "Service client"
-    } ] }
-</script>
-<script type="application/ld+json">
-{
-   "@context": "http://schema.org",
-   "@type": "WebSite",
-   "url": "http://www.legrand.fr/",
-   "potentialAction": {
-     "@type": "SearchAction",
-     "target": "http://www.legrand.fr/?search={search_term_string}",
-     "query-input": "required name=search_term_string"
-   }
-}
-</script>
-<script>
-    // only for debug
-    $.get('inc/debug.last-modified.php').promise().done(function (r) {
-        var buildTime = r * 1000;
-        var now = new Date().getTime();
-        console.info('last build', (now - buildTime)/1000, 'seconds ago');
-    })
-</script>
 
