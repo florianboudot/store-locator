@@ -2,7 +2,6 @@
     &.header-pro {
         .menu-logo {
             .pro-title-logo-mobile {
-                @extend .Roboto-light !optional;
                 font-size: pxtoem(19, 34);
                 vertical-align: top;
                 line-height: 16px
@@ -80,7 +79,6 @@
             }
             .pro-title-logo-desktop {
                 position: static;
-                @extend .Roboto-light !optional;
                 font-weight: 300;
                 font-size: pxtoem(30);
                 vertical-align: top;

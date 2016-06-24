@@ -5,33 +5,8 @@
 
 /* Fonts classes */
 
-.Roboto-Thin {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 100;
-}
-
-.Roboto-Light {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 300;
-}
-
-.Roboto-Medium {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 500;
-}
-
-.Roboto-Regular {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 400;
-}
-
-.Roboto-Bold {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 700;
-}
-
 body {
-    font: 1.7em/1.47 'Roboto', Arial, Verdana, Helvetica, sans-serif; // font-sizing for content 17px / 25px
+    font: 1.7em/1.47 Arial, Verdana, Helvetica, sans-serif; // font-sizing for content 17px / 25px
     @include mq($until: mobile) {
         font: 1.5em/2.2; // 15px /22px
     }
@@ -58,7 +33,6 @@ p {
 
 .txt-title-b-1 {
     font-size: 11px;
-    @extend .Roboto-Bold;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 20px;
@@ -70,7 +44,6 @@ p {
 
 .txt-title-b-2 {
     font-size: 13px;
-    @extend .Roboto-Bold;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 20px;
@@ -78,7 +51,6 @@ p {
 }
 
 .txt-title-l-1 {
-    @extend .Roboto-Light;
     font-weight: 300;
     font-size: 27px;
     line-height: 1.185em; //32px
@@ -92,12 +64,11 @@ p {
 
 .txt-title-l-2 {
     font-size: 20px;
-    @extend .Roboto-Light;
     font-weight: 300;
     line-height: 1.35em; //27px
     margin-bottom: 20px;
     @include mq($from: desktop) {
-        font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
+        font-family: Arial, Verdana, Helvetica, sans-serif;
         font-weight: 300;
         font-size: 27px;
         line-height: 1.185em; //32px
@@ -105,7 +76,6 @@ p {
 }
 
 .txt-title-r-1 {
-    @extend .Roboto-Light;
     font-weight: 300;
     font-size: 17px;
     line-height: 1.47em; //25px
@@ -114,7 +84,6 @@ p {
 
 /*bold text contenu*/
 .text-b-1 {
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: 9px;
     margin: 0;
@@ -126,7 +95,6 @@ p {
 }
 
 .text-b-2 {
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: 10px;
     margin: 0;
@@ -138,7 +106,6 @@ p {
 }
 
 .text-b-3 {
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: 11px;
     text-transform: uppercase;
@@ -150,7 +117,6 @@ p {
 }
 
 .text-b-4 {
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: 15px;
     text-transform: uppercase;
@@ -162,7 +128,6 @@ p {
 }
 
 .text-b-5 {
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: 11px;
     margin: 0;
@@ -172,7 +137,6 @@ p {
 
 /*medium*/
 .text-m-1 {
-    @extend .Roboto-Medium;
     font-weight: 500;
     font-size: 11px;
     margin: 0;
@@ -184,7 +148,6 @@ p {
 }
 
 .text-m-2 {
-    @extend .Roboto-Medium;
     font-weight: 500;
     font-size: 12px;
     margin: 0;
@@ -198,14 +161,12 @@ p {
 /*regular*/
 .text-r {
     font-size: 15px;
-    @extend .Roboto-Regular;
     @include mq($from: desktop) {
         font-size: 17px;
     }
 }
 
 .text-r-1 {
-    @extend .Roboto-Regular;
     font-size: 12px;
     line-height: 1.384em; //18px
     margin-top: 15px;
@@ -216,7 +177,6 @@ p {
 }
 
 .text-r-2 {
-    @extend .Roboto-Regular;
     font-size: 13px;
     line-height: 1.385em; //18px
     @include mq($from: desktop) {
@@ -226,7 +186,6 @@ p {
 }
 
 .text-r-3 {
-    @extend .Roboto-Regular;
     font-size: 17px;
     line-height: 1.45em; //25px
     @include mq($from: desktop) {
@@ -236,7 +195,6 @@ p {
 }
 
 .text-r-4 {
-    @extend .Roboto-Regular;
     font-size: 15px;
     line-height: 1.1333em; //22px
     @include mq($from: desktop) {
@@ -247,7 +205,6 @@ p {
 
 .text-r-5 {
     font-size: 20px;
-    @extend .Roboto-Regular;
     @include mq($from: desktop) {
         font-size: 27px;
     }
@@ -255,7 +212,7 @@ p {
 
 //mix regular light
 .text-r-l-1 {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
     font-weight: 400;
     font-size: 17px;
     line-height: 1.45em; //25px
@@ -268,7 +225,7 @@ p {
 
 .text-r-l-3 {
     font-size: 20px;
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
     font-weight: 400;
     @include mq($from: desktop) {
         font-size: 27px;
@@ -278,7 +235,7 @@ p {
 
 
 .text-r-l-2 {
-    font-family: 'Roboto', Arial, Verdana, Helvetica, sans-serif;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
     font-weight: 300;
     font-size: 27px;
     line-height: 1.185em; //32px
@@ -287,7 +244,6 @@ p {
 /*light*/
 
 .text-l-2 {
-    @extend .Roboto-Light;
     font-weight: 300;
     font-size: 27px;
     line-height: 1.185em; //32px
@@ -299,7 +255,6 @@ p {
 }
 
 .text-l-3 {
-    @extend .Roboto-Light;
     font-size: 40px;
 
     @include mq($from: desktop) {
@@ -308,7 +263,6 @@ p {
 }
 
 .text-l-4 {
-    @extend .Roboto-Light;
     font-size: 60px;
 
     @include mq($from: desktop) {
@@ -318,7 +272,6 @@ p {
 
 /*light*/
 .text-t-1 {
-    @extend .Roboto-Thin;
     font-weight: 100;
     font-size: 35px;
     line-height: 1.143em; //40px
@@ -330,7 +283,6 @@ p {
 }
 
 .text-t-2 {
-    @extend .Roboto-Thin;
     font-weight: 100;
     font-size: 27px;
     @include mq($from: mobile) {

@@ -307,7 +307,6 @@ body.header-body-open {
     .hncl-title {
         position: relative;
         font-size: 11px;
-        @extend .Roboto-Bold;
 
         @include mq ($from: from-desktop) {
             font-size: 20px;
@@ -349,7 +348,6 @@ body.header-body-open {
     .hncl-list {
         display: none;
         font-size: 11px;
-        @extend .Roboto-Bold;
         text-transform: uppercase;
 
         &.active {
@@ -425,7 +423,6 @@ body.header-body-open {
         padding: 16px 0;
         font-size: 11px;
         letter-spacing: 0.1em;
-        @extend .Roboto-Bold;
         text-transform: uppercase;
         @include mq($from: from-desktop) {
             font-size: 12px;

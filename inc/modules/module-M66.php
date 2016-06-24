@@ -8,7 +8,7 @@
                 <h2 class="block-pre-title block-thematic">à la une</h2>
                 <h3 class="block-title">Legrand au CES de Las Vegas</h3>
                 <p class="link-option-text">
-                    <span class="option-text Roboto-Bold">Lire la suite</span>
+                    <span class="option-text">Lire la suite</span>
                     <i class="icon-open-bracket thin-icon icon"></i>
                 </p>
             </div>

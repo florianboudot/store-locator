@@ -86,7 +86,6 @@
         height: 100%;
         width: 100%;
         padding: 20px 0 20px 15px;
-        @extend .Roboto-Regular;
         font-size: pxtoem(17);
         background: $color-background-light;
         transition: all 0.2s ease-in-out;
@@ -277,7 +276,6 @@
     text-align: center;
     color: $color-form-error;
     margin: 20px 0;
-    @extend .Roboto-Bold;
     font-weight: 700;
     font-size: pxtoem(12);
     &.active {
