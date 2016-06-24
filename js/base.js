@@ -9,7 +9,6 @@
 'use strict';
 
 require('./base/ready.js');
-require('./base/load.js');
 
 /*  =CONSTANTES
  ----------------------------------------------------------------------------- */

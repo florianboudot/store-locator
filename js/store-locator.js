@@ -7,13 +7,13 @@ var mStoreLocator = (function () {
     var map_id = 'map';
     var $map = $('#' + map_id);
     var json_url = $map.data('json-url');
-    var style_url = 'mapbox://styles/frontmodem/cinkehgzt0250d5m3t26y6q8u'; // account 'frontmodem'
+    var style_url = 'mapbox://styles/frontmodem/cinkehgzt0250d5m3t26y6q8u'; // account 'frontmodem' // todo change mapzen account to mine
     var init_coords = [$map.data('coord-lat'), $map.data('coord-lng')];
     var default_coords = [47.27177506640826, 2.724609375]; // france
     var is_init_coords = init_coords[0] && init_coords[0] != '';
     var coords = is_init_coords ? init_coords : default_coords; // france
     var mapzen_key = 'search-GmnWoUR'; // account 'frontmodem'
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot // todo change mapbox account to mine
 
     // DOM elements
     var $filters = $('.js-filter-markers');
