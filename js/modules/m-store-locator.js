@@ -21,7 +21,6 @@ var mStoreLocator = (function () {
     var $geocoder_divs = $('.js-geocoder-search');
     var $panel_container = $('#panel-container');
     var $sidebar = $('#sidebar');
-    var $buttons_display_panel = $('.js-display-panel');
     var $btn_locate_me = $('.js-locate-me');
     var $city = $('.city-nearby');
     var $store_container = $('#store-locator-container');

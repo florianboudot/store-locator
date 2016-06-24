@@ -108,11 +108,11 @@ img.leaflet-pelias-layer-icon {
     @extend .icon-immovable;
     @extend .icon-font;
     color: $color-text-grey;
-    //background-image: url('../img/data/store-locator/point_icon.png');
+    //background-image: url('../img/point_icon.png');
 }
 
 .leaflet-pelias-layer-icon-polygon {
-    background-image: url('../img/data/store-locator/polygon_icon.png');
+    background-image: url('../img/polygon_icon.png');
 }
 
 .leaflet-pelias-close {
@@ -164,7 +164,7 @@ img.leaflet-pelias-layer-icon {
 .leaflet-pelias-search-icon {
     position: absolute;
     height: 100%;
-    background-image: url('../img/data/store-locator/search.png');
+    background-image: url('../img/search.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 16px;
@@ -188,16 +188,16 @@ img.leaflet-pelias-layer-icon {
 }
 
 .leaflet-pelias-search-icon.leaflet-pelias-loading {
-    background-image: url('../img/data/store-locator/loading.gif');
+    background-image: url('../img/loading.gif');
 }
 
 @media only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
     .leaflet-pelias-search-icon {
-        background-image: url('../img/data/store-locator/search@2x.png');
+        background-image: url('../img/search@2x.png');
     }
 
     .leaflet-pelias-search-icon.leaflet-pelias-loading {
-        background-image: url('../img/data/store-locator/loading@2x.gif');
+        background-image: url('../img/loading@2x.gif');
     }
 }
 
