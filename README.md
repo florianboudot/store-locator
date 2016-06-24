@@ -2,11 +2,9 @@
 Store locator
 
 # commands
-installation
+1. installation
 `npm install`
-
-js watcher (creates and overwrites `/scripts/bundle.js`)
+2. js watcher (creates and overwrites `/scripts/bundle.js`)
 `npm run wp -- --watch`
-
-scss watcher (creates and overwrites `/styles/all.css`)
+3. scss watcher (creates and overwrites `/styles/all.css`)
 `grunt fw`
