@@ -1,0 +1,3 @@
+<div class="module m-text-form">
+    <p class="block-text">Ces informations nous permettront de mieux vous connaître. Elles seront utilisées pour vous informer de l’existence de nos produits et services. Les informations qui vous concernent sont destinées à Legrand. Nous pouvons être amenés à les transmettre à des tiers (partenaires commerciaux, etc). Si vous ne le souhaitez pas, <a href="#" class="link-block-text">cliquez ici</a>. Vous disposez d'un droit d'accès, de modification, de rectification et de suppression des données qui vous concernent (article 34 de la loi «Informatique et Libertés»). Pour l'exercer, adressez vous à : webmaster.legrand@legrand.fr</p>
+</div>

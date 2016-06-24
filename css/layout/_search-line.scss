@@ -1,0 +1,108 @@
+.search-line {
+    opacity: 0;
+    pointer-events: none;
+    transition: 125ms ease-out;
+    transform: scaleY(.9);
+    transform-origin: top;
+    width: 100%;
+    background: $color-background-light;
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: scaleY(1);
+        .search-bar {
+            .search-input {
+                visibility: visible;
+            }
+        }
+        //transform: translateY(0);
+        //transition: 125ms ease-out;
+    }
+    .search-bar {
+        position: relative;
+        height: $heightMenuMobile;
+        .form-suggest {
+            height: 100%;
+        }
+        .search-input {
+            border: none;
+            width: 100%;
+            height: 100%;
+            padding-left: 25px;
+            background: $color-background-light;
+            //visibility: hidden;
+            &::-ms-clear {
+                display: none;
+            }
+        }
+    }
+    .txt-title-l-2 {
+        margin-bottom: inherit;
+    }
+    /*search bar localisation*/
+    .or {
+        text-align: center;
+        margin: 40px 0 30px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+    .cp {
+        margin: 0 20px 20px;
+        position: relative;
+        background: $color-white;
+
+        .leaflet-pelias-expanded {
+            width: 100%;
+        }
+        .leaflet-pelias-results {
+            border-left: none;
+            border-right: none;
+            border-top: 1px solid $color-border-block;
+        }
+
+        input[type=search] {
+            width: calc(100% - 35px);
+            height: 50px;
+            float: right;
+            border: none;
+            color: $color-text-grey;
+            padding-left: 10px;
+            outline: 0;
+            z-index: 10;
+            position: relative;
+        }
+        .icon-target {
+            display: none;
+        }
+        .icon-search-thin {
+            position: absolute;
+            top: 12px;
+            left: 10px;
+        }
+    }
+    @include mq($from: desktop) {
+        .search-bar {
+            max-width: $max-width;
+            margin: auto;
+            height: $heightMenuDesktop;
+            .search-input {
+                padding-left: 120px;
+                outline: 0;
+            }
+            .icon-item {
+                position: absolute;
+                top: 50%;
+                left: 50px;
+                margin-top: -12px;
+                font-size: 24px;
+                display: block;
+                &:after {
+                    content: '';
+                    border-right: 1px solid #ccc;
+                    margin-left: 25px;
+                }
+            }
+        }
+
+    }
+}

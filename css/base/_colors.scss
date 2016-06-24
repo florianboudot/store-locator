@@ -1,0 +1,65 @@
+/* ==========================================================================
+   COLORS.SCSS
+   Standard colors and classes
+   ========================================================================== */
+body {
+    //color: $color-brown;
+}
+
+a {
+    //  color: $color-brown;
+}
+
+/* generic colors */
+.color-white {
+       color: $color-white;//#ffffff
+}
+.color-legrand {
+       color: $color-legrand;//#FF9600
+}
+.color-black {
+    color: $color-black;//#202020
+}
+
+/* specific for text */
+.color-text-grey {
+       color: $color-text-grey;//#A0A0A0
+}
+.color-text-unactive {
+       color: $color-text-unactive;//#C7C7C7
+}
+ /* classique background */
+.color-background-legrand{
+    background: $color-legrand;
+}
+.color-background-black{
+    background: $color-black;
+}
+
+/* specific for background */
+.color-background-light {
+     background: $color-background-light;//F3F2F1
+}
+.color-background-dark {
+     background: $color-background-dark;//#393837
+}
+
+ /* color for forms */
+.color-form-error {
+       color: $color-form-error;//#BE2A2A
+}
+.color-form-valid {
+       color: $color-form-valid;//#5CB62F
+}
+
+/* other colors */
+
+.color-border-block {
+       color: $color-border-block;
+}
+.color-border-text {
+       color: $color-border-text;
+}
+.color-line-title {
+      color: $color-line-title;
+}

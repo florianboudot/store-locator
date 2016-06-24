@@ -1,0 +1,18 @@
+.main-container {
+    padding-top: $heightMenuMobile;
+    @include mq($from: from-desktop) {
+        padding-top: $heightMenuDesktop;
+    }
+
+}
+
+.over-top{
+    &:before{
+        content: '';
+        height: 20px;
+        width: 100%;
+        position: absolute;
+        top: -20px;
+        z-index: 20;
+    }
+}

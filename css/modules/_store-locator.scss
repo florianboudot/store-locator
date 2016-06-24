@@ -1,0 +1,459 @@
+.main-head { // page showroom only
+    display: flex;
+    @extend .border-t;
+    flex-direction: column;
+
+    @include mq($from: desktop) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.btn-see-card,
+.btn-see-list {
+    display: inline-block;
+
+    &.hidden {
+        display: none;
+    }
+
+    @include mq($from: desktop) {
+        display: none;
+    }
+}
+
+// only on page showrooms
+.filter-markers {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    @extend .gutter-left;
+
+    @include mq($from: desktop) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .bt-filter {
+        margin-right: 40px;
+        cursor: pointer;
+        margin-bottom: 10px;
+
+        @include mq($from: desktop) {
+            margin-bottom: 0;
+            margin-right: 10px;
+        }
+        &.active {
+            cursor: auto;
+        }
+        &.filter-agences {
+            color: $colorAgences;
+            border-color: $colorAgences;
+
+            &:hover, &.active {
+                background-color: $colorAgences;
+                color: white;
+            }
+        }
+        &.filter-showrooms {
+            color: $colorShowrooms;
+            border-color: $colorShowrooms;
+
+            &:hover, &.active {
+                background-color: $colorShowrooms;
+                color: white;
+            }
+        }
+    }
+}
+
+#store-locator-container {
+    display: flex;
+
+    @include mq($from: desktop) {
+        height: 570px;
+    }
+    @include mq($until: desktop) {
+        flex-direction: column;
+    }
+}
+
+.map-container {
+    position: relative;
+}
+
+#map {
+    position: relative;
+    width: 100%;
+    background: rgba(195, 224, 224, 0.88); // #c3e0e0
+
+    @include mq($until: desktop) {
+        position: absolute;
+        left: -9999px;
+        height: calc(100vh - 300px);
+
+        &.mobile-show-map {
+            position: relative;
+            left: auto;
+        }
+    }
+}
+
+.gutter-left {
+    padding-left: 55px;
+    @include mq($until: tablet) {
+        padding-left: 40px;
+    }
+}
+
+#sidebar {
+    flex: 0 0 420px;
+    width: 420px;
+    background: white;
+    overflow: hidden;
+    position: relative;
+
+    @include mq($until: desktop) {
+        width: 100%;
+        flex: none;
+        padding: 20px 0;
+        overflow: inherit;
+
+        .page-showrooms & {
+            padding: 0;
+        }
+    }
+}
+
+.page-showrooms {
+    .btn-see-card {
+        margin-top: -20px;
+    }
+}
+
+#panel-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200%;
+    display: flex;
+    flex-direction: row;
+
+    $inanimation: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+    $outanimation: cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    transition: transform 300ms $outanimation;
+
+    @include mq($until: desktop) {
+        position: relative;
+        width: 100%;
+        display: block;
+        transition: none;
+    }
+
+    .page-showrooms & .list-title .btn-back,
+    .page-showrooms & .list-title .btn-locate-me {
+        display: none !important;
+    }
+
+    &.display-panel-2,
+    .page-showrooms &  { // show results only
+        transform: translateX(-50%);
+
+        @include mq($until: desktop) {
+            transform: inherit;
+        }
+    }
+
+    .panel {
+        flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+
+        @include mq($until: desktop) {
+            &.panel-2 {
+                display: none;
+            }
+        }
+
+        .buttons {
+            @include mq($until: desktop) {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                .btn {
+                    padding-right: 2px;
+                    padding-left: 2px;
+                    /*flex-basis: calc(50% - 5px);*/
+                }
+                .btn-locate-me {
+                    /*flex-basis: 100%;*/
+                    display: inline-block;
+
+                }
+            }
+        }
+    }
+
+    .panel-2 {
+        .btn {
+            margin-bottom: 10px;
+        }
+        .gutter-left {
+            margin-right: 40px;
+        }
+        @include mq($from: desktop) {
+            .btn {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    @include mq($until: desktop) {
+        &.display-panel-2 {
+            .panel-1 {
+                display: none;
+            }
+            .panel-2 {
+                display: block;
+            }
+        }
+    }
+}
+
+#stores-list {
+    overflow: auto;
+    margin-top: 30px;
+    border-top: 1px solid $color-border-block;
+
+    .page-showrooms &{
+        margin-top: 0;
+    }
+
+    @include mq($until: desktop) {
+        max-height: 0;
+        transition: max-height 0.15s ease-out;
+        margin-top: 0;
+        border-top: none;
+        &.active {
+            max-height: calc(100vh - 300px);
+            min-height: 200px;
+            transition: max-height 0.25s ease-in;
+            margin-top: 30px;
+            border-top: 1px solid $color-border-block;
+        }
+        .page-showrooms &,
+        .page-showrooms &.active {
+            margin-top: 0;
+        }
+    }
+    .item {
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 9px;
+        border-bottom: 1px solid $color-border-block;
+        line-height: 16px;
+        font-size: 13px;
+        flex-direction: row;
+        transition: background 200ms ease, padding-top 200ms ease;
+
+        &:after {
+            content: '';
+            width: 5px;
+            background: transparent;
+            transition: bottom 200ms ease, background 200ms ease;
+            position: absolute;
+            top: 0;
+            bottom: 100%;
+            left: 0;
+        }
+
+        &:hover {
+            background: $color-background-light;
+        }
+
+        &.active {
+            cursor: auto;
+            padding-top: 27px;
+            padding-bottom: 5px;
+            padding-left: 50px;
+            background: $color-background-light;
+            flex-direction: column;
+
+            &:after {
+                bottom: 0;
+                background: $color-legrand;
+            }
+        }
+
+        .logo {
+            width: 107px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+
+            img {
+                max-width: 60px;
+                margin: 0 auto;
+            }
+        }
+
+        &.active .logo {
+            width: auto;
+            display: block;
+
+            img {
+                max-width: 100px;
+                margin-top: 3px;
+                margin-bottom: 23px;
+            }
+        }
+
+        .txt {
+            display: block;
+        }
+
+        .infos {
+            padding-right: 10px;
+        }
+        .title {
+            display: block;
+            font-size: 17px;
+            padding-bottom: 8px;
+        }
+        .address {
+            display: block;
+        }
+
+        .distance {
+            display: inline-block;
+            font-size: 11px;
+        }
+        .more-infos {
+            line-height: 18px;
+            overflow: hidden;
+            transition: none;
+            max-height: 0;
+        }
+        &.active .more-infos,
+        &.always-open .more-infos {
+            transition: max-height 200ms ease;
+            padding: 20px 0 0 0;
+            max-height: 200px;
+        }
+        .actions {
+            padding: 13px 0 10px 0; // mobile
+            display: flex;
+            flex-wrap: wrap;
+
+            @include mq($from: desktop) {
+                padding-bottom: 20px;
+            }
+
+            .bt-more {
+                padding: 5px 22px !important;
+            }
+
+            .btn {
+                margin-right: 10px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+        .bt-itinerary,
+        .bt-show-map {
+            @extend .text-b-3;
+            display: flex;
+            align-items: center;
+            padding-top: 8px;
+            margin-top: 0;
+            margin-bottom: 0;
+
+            .icon {
+                font-size: 20px;
+                margin-right: 10px;
+            }
+        }
+        .bt-show-map {
+            @include mq($from: desktop) {
+                display: none;
+            }
+        }
+        .bt-more, .bt-contact {
+            font-size: 12px;
+        }
+    }
+}
+
+//.leaflet-touch .leaflet-control-zoom {
+// disable zoom controls for desktop and mobile
+.leaflet-control-zoom {
+    //display: none;
+}
+
+.leaflet-pelias-expanded,
+.leaflet-touch .leaflet-pelias-control.leaflet-pelias-expanded {
+    //width: 400px;
+}
+
+/* Swap out the image for search icon when the control is expanded */
+.leaflet-pelias-control.leaflet-pelias-expanded .leaflet-pelias-search-icon:not(.leaflet-pelias-loading) {
+    background-image: url('../img/data/store-locator/search_blue.png');
+}
+
+.no-webgl-message {
+    display: none;
+}
+
+html.no-webgl .no-webgl-message {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1001; /* Ensures visibility in IE8 */
+    padding: 10px;
+    font-family: sans-serif;
+    background-color: lightyellow;
+    border-bottom: 1px solid gold;
+}
+
+#geocoder-search {
+    position: relative;
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.locator-block-title {
+    @extend .gutter-left;
+    @extend .border-t;
+    padding-top: 13px;
+    padding-bottom: 33px;
+}
+
+#map-fake {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+}
+
+.geocoder-search {
+    width: calc(100% - 156px);
+    display: inline-block;
+}

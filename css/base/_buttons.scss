@@ -1,0 +1,174 @@
+/* ==========================================================================
+   BUTTONS.SCSS
+   Styles for buttons.
+   Buttons can be on 2 lines in a fixed height, that's why there is a span
+   ========================================================================== */
+
+.btn {
+    background: none;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+    @extend .Roboto-Bold;
+    letter-spacing: 0.1em;
+
+    input, button {
+        background: none;
+        border: none;
+        color: inherit;
+        font: inherit;
+        line-height: inherit;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+}
+.btn-locate-me {
+    display: inline-flex;
+    align-items: center;
+    outline: none;
+
+    .icon {
+        margin-right: 10px;
+    }
+}
+button.btn:not(.btn-medium):not(.btn-main) {
+    border: none;
+    line-height: inherit;
+}
+.btn-main {
+    color: $color-black;
+    font-size: pxtoem(13);
+    padding: 14px 40px;
+    border: 1px solid $color-line-title;
+
+    &:hover {
+        background: $color-legrand;
+        color: $color-white;
+        border: 1px solid $color-legrand;
+    }
+
+}
+
+.btn-main-bg-orange {
+    font-size: pxtoem(13);
+    padding: 14px 40px;
+    background: $color-legrand;
+    border: none;
+    color: $color-white;
+    &:hover {
+        background: $color-black;
+        color: $color-white;
+    }
+}
+
+.btn-main-decli {
+    color: $color-white;
+    border: 1px solid $color-white;
+
+    &:hover {
+        background: $color-white;
+        color: $color-black;
+        border: 1px solid $color-white;
+    }
+}
+
+.btn-main-reverse {
+    color: $color-black;
+    border: 1px solid $color-white;
+    background: $color-white;
+    &:hover {
+        background: $color-black;
+        color: $color-white;
+        border: 1px solid $color-black;
+    }
+}
+
+.btn-medium {
+    color: $color-black;
+    font-size: pxtoem(12);
+    padding: 5px 25px;
+    border: 1px solid $color-line-title;
+    position: relative;
+
+    &:hover, &.active {
+        background: $color-legrand;
+        color: $color-white;
+        border: 1px solid $color-legrand;
+    }
+    .icon-end {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        margin-top: -10px;
+    }
+    &.decli {
+        border: 1px solid $color-legrand;
+        &:hover {
+            background: $color-black;
+            color: $color-white;
+            border: 1px solid $color-black;
+        }
+    }
+    &.decli-reverse {
+        &:hover {
+            background: $color-black;
+            color: $color-white;
+            border: 1px solid $color-black;
+        }
+    }
+}
+
+.btn-legrand {
+    color: $color-white;
+    background: $color-legrand;
+    font-size: pxtoem(12);
+    padding: 5px 25px;
+    &:hover {
+        background: $color-black;
+        color: $color-white;
+    }
+}
+
+.btn-main-full {
+    color: $color-white;
+    font-size: pxtoem(13);
+    padding: 14px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    &:hover {
+        background: $color-white;
+        color: $color-black;
+    }
+}
+
+.btn-main-full-reverse {
+    color: $color-black;
+    background: $color-white;
+    font-size: pxtoem(13);
+    padding: 14px 40px;
+
+    &:hover {
+        background: $color-black;
+        color: $color-white;
+    }
+}
+
+.btn-product-img-label {
+    color: $color-white;
+    background: $color-legrand;
+    font-size: pxtoem(12);
+    padding: 5px 10px;
+    @include mq($until: mobile) {
+        padding: 5px;
+    }
+    text-transform: uppercase;
+    display: inline-block;
+
+}
+
+

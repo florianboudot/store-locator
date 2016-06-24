@@ -1,0 +1,33 @@
+//breadcrumb
+
+.breadcrumb {
+    display: none;
+    @extend .text-m-2;
+    text-transform: inherit;
+}
+
+@include mq($from: desktop) {
+    .breadcrumb {
+
+        display: block;
+        .list-item {
+            display: inline-block;
+            &:first-child:before {
+                display: none;
+            }
+            &:before {
+                content: '\e92d';
+                font-family: 'icons';
+                font-size: 22px;
+                margin-right: 4px;
+                vertical-align: middle;
+            }
+            &:last-child {
+                font-weight: bold;
+            }
+        }
+        .list-item-link {
+            vertical-align: middle;
+        }
+    }
+}

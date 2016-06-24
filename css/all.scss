@@ -1,0 +1,18 @@
+/*------------------------------------------------------------------------------
+    CSS Document (http://www.w3.org/Style/CSS/)
+
+    author:     Antoine Sanchez
+
+----------------------------------------------------------------------------- */
+$mq-responsive: true;
+
+@import "config/_variables";
+@import 'utils/all-utils';
+@import 'normalize'; // boilerplate
+@import 'vendors/all-vendors'; // framework, OOCSS and more
+@import 'base/all-base';
+@import 'layout/all-layout'; // layout breaking points
+//@import 'form/all-form';
+@import 'sections/all-sections';
+@import "modules/store-locator";
+@import 'icons/style';

@@ -1,0 +1,363 @@
+.section {
+    max-width: 1440px;
+    margin: auto;
+    .section-inner {
+        max-width: 1440px;
+        margin: auto;
+
+        &.mod-full {
+            max-width: initial;
+        }
+    }
+    .section-content {
+        @extend .line;
+    }
+
+    @include mq($until: mobile) {
+        .m-order-2 {
+            order: 2;
+        }
+        .m-order-1 {
+            order: 1;
+        }
+    }
+
+    @include mq($from: mobile) {
+        .section-bottom {
+            margin-bottom: 55px;
+        }
+    }
+
+    // section touching screen
+    &.mod-full {
+        max-width: initial;
+        .section-content {
+            @include mq($from: mobile) {
+                //margin: 0 $h-space-desktop;
+            }
+        }
+    }
+
+    .section-flex {
+        display: flex;
+    }
+
+    // column for tablet/desktop
+    @include mq($from: mobile) {
+        [class^="section-grid-"], [class*=" section-grid-"] {
+            float: left;
+        }
+
+        .section-flex-col-d2 {
+            width: (100%/2);
+            flex-direction: column;
+        }
+        .section-grid-d-1 {
+            width: 100%;
+            float: none;
+            clear: both; // because pagination placed after floating elements in 04-btob-categorie-list.php
+        }
+
+        .section-grid-d-2 {
+            width: (100%/2);
+        }
+        .section-grid-d-3 {
+            width: (100%/3);
+        }
+
+        .section-grid-d-4 {
+            width: (100%/4);
+        }
+    }
+
+    @include mq($until: mobile) {
+        .section-flex-col-m {
+            display: flex;
+            flex-direction: column;
+        }
+        .section-flex-col-m1 {
+            width: 100%;
+            flex-direction: column;
+            float: none;
+        }
+
+        [class^="section-grid-"], [class*=" section-grid-"] {
+            float: left;
+        }
+        .section-grid-m-full {
+            width: 100%;
+        }
+        .section-grid-m-1 {
+            width: 100%;
+            float: none;
+        }
+
+        .section-grid-m-2 {
+            width: (100%/2);
+        }
+        .section-grid-m-3 {
+            width: (100%/3);
+        }
+    }
+
+    .section-nav {
+        width: 100%;
+        .block-nav {
+            position: relative;
+            display: none;
+            @include mq($from: mobile) {
+                display: block;
+            }
+            .nav-bar {
+                width: 253px;
+            }
+            &.over-top {
+                &:before {
+                    background: $color-white;
+                    z-index: 5;
+                }
+            }
+        }
+
+        .block-content {
+            width: 100%;
+            @include mq($from: mobile) {
+                width: calc(100% - 253px);
+            }
+        }
+    }
+
+    //sections with inside margin
+    &.section-spacing-small {
+        @include mq($from: mobile) {
+            .section-content {
+                margin: 10px;
+            }
+        }
+        @include mq($from: mobile) {
+            .section-grid-d-2 {
+                width: calc((100% / 2) - (10px * 2));
+                margin: 0 10px;
+            }
+            .section-grid-d-3 {
+                width: calc((100% / 3) - (10px * 2));
+                margin: 0 10px;
+            }
+
+            .section-grid-d-4 {
+                width: calc((100% / 4) - (10px * 2));
+                margin: 0 10px;
+            }
+        }
+    }
+    &.section-spacing-medium {
+        //.section-grid-d-1-4{
+        //    float: none;
+        //}
+        @include mq($from: mobile) {
+            .section-content {
+                margin: 0;
+            }
+        }
+        @include mq($from: mobile) {
+
+            .section-grid-d-1-4 {
+                width: calc(25% - #{$colsize}px);
+                margin: 0 #{$colsize/2}px;
+            }
+
+            .section-grid-d-3-4 {
+                width: calc(75% - #{$colsize}px);
+                margin: 0 #{$colsize/2}px;
+            }
+
+            .section-grid-d-2 {
+                width: calc((100% / 2) - #{$colsize}px);
+                margin: 0 #{$colsize/2}px;
+            }
+            .section-grid-d-3 {
+                width: calc((100% / 3) - #{$colsize}px);
+                margin: 0 #{$colsize/2}px;
+            }
+
+            .section-grid-d-4 {
+                width: calc((100% / 4) - #{$colsize}px);
+                margin: 0 #{$colsize/2}px;
+            }
+        }
+    }
+
+    //sections with inside margin and border
+    &.section-border-spacing {
+        @include mq($from: mobile) {
+            .section-content {
+                margin: 10px;
+            }
+        }
+        @include mq($from: mobile) {
+            .section-grid-d-2 {
+                width: calc((100% / 2));
+                padding: 0 25px;
+                border: solid $color-border-block;
+                border-width: 0 1px;
+            }
+            .section-grid-d-3 {
+                width: calc(100% / 3);
+                padding: 0 25px;
+                border: solid $color-border-block;
+                border-width: 0 1px;
+            }
+
+            .section-grid-d-4 {
+                width: calc((100% / 4));
+                padding: 0 25px;
+                border: solid $color-border-block;
+                border-width: 0 1px;
+            }
+        }
+
+        @include mq($until: mobile) {
+            .section-grid-m-2 {
+                width: (100%/2);
+                padding: 0 25px;
+                border: solid $color-border-block;
+                border-width: 0 1px;
+            }
+        }
+    }
+
+    //section with margins outside
+    &.section-small {
+        .section-inner {
+            padding: 0 $h-space-mobile;
+        }
+    }
+    &.section-medium {
+        .section-inner {
+            padding: 0 $h-space-mobile;
+        }
+    }
+    &.section-small-m-full {
+        .section-inner {
+            padding: 0;
+        }
+    }
+    @include mq($from: mobile) {
+        &.section-small {
+            .section-inner {
+                padding: 0 percentage($colsize*$colcount/100/1/100);
+            }
+        }
+        &.section-medium {
+            .section-inner {
+                padding: 0 percentage($colsize*$colcount/100/2/100);
+            }
+        }
+    }
+    @include mq($from: tablet) {
+        &.section-small-m-full {
+            .section-inner {
+                padding: 0 $h-space-desktop;
+            }
+        }
+    }
+
+}
+
+.section-bg {
+    background: $color-background-light;
+}
+
+.section-bg-black {
+    background: $color-background-dark;
+}
+
+.section-large {
+    padding: 60px 0;
+    @include mq($from: mobile) {
+        padding: 90px 0;
+    }
+}
+
+.section-large-medium {
+    padding: 40px 0;
+    @include mq($from: mobile) {
+        padding: 60px 0;
+    }
+}
+
+.section-large-small {
+    margin-bottom: 20px;
+    @include mq($from: mobile) {
+        margin-bottom: 60px;
+    }
+}
+
+.section-large-big {
+    margin-bottom: 60px;
+    @include mq($from: mobile) {
+        margin-bottom: 90px;
+    }
+}
+
+.section-large-big-border {
+    padding: 60px 0;
+    border-bottom: 1px solid $color-border-block;
+
+
+    @include mq($from: mobile) {
+        padding: 90px 0;
+        &.fix-margin-small {
+            padding-bottom: 35px;
+        }
+    }
+
+    &.no-pad-top {
+        padding-top: 0;
+    }
+
+    &.no-pad-bottom {
+        padding-bottom: 0;
+    }
+
+    &.m-no-border {
+        @include mq($until: mobile) {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+    }
+
+    &.d-no-border {
+        @include mq($from: mobile) {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+    }
+    //cancel padding-margin for pages and add border-bottom
+    .module-rte {
+        padding: 0;
+        h2 {
+            margin-top: 0;
+        }
+    }
+    .txt-title-l-2,
+    .txt-title-dashed-large{
+        margin-top: 0;
+    }
+}
+
+.section-container-large {
+    @include mq($from: mobile) {
+        width: 75%;
+        float: left;
+    }
+
+}
+
+.section-container-small {
+    @include mq($from: mobile) {
+        width: 25%;
+        float: left;
+    }
+
+}

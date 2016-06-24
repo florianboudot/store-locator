@@ -1,0 +1,441 @@
+.form {
+    margin: 80px 0 50px;
+}
+
+// checkboxes 'DB'
+.form-checkbox {
+    position: absolute;
+    left: -9999em;
+
+    & + .form-label {
+        margin-left: 25px;
+        display: block;
+        color: #c7c7c7;
+
+        &:before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border: solid 1px $color-black;
+            position: absolute;
+            left: 0;
+            top: 3px;
+        }
+    }
+    &:checked {
+        & + .form-label:before {
+            background: $color-black;
+        }
+    }
+
+    // checkboxes 'DIB'
+    &.checkboxes {
+        & + .form-label {
+            display: inline-block;
+            &:before {
+                top: 5px;
+            }
+
+        }
+    }
+}
+
+.form-subtitle {
+    font-size: pxtoem(13);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 15px;
+}
+
+.section-checkboxes {
+    margin-bottom: 30px;
+    .form-label {
+        text-transform: capitalize;
+        font-weight: 500;
+    }
+    .form-checkbox-item {
+        position: relative;
+        + .form-checkbox-item {
+            margin-left: 50px;
+        }
+        .form-label {
+            font-size: pxtoem(17);
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+    }
+}
+
+//input
+.form-item {
+    position: relative;
+    padding-bottom: 20px;
+    input {
+        outline: solid 1px $color-background-light;
+        transition: all 0.2s ease-in-out;
+    }
+    input:focus:valid {
+        background: $color-white;
+        outline: solid 1px $color-border-block !important;
+        border: none !important;
+        transition: all 0.2s ease-in-out;
+    }
+    .block-input,
+    .form-item-text {
+        height: 100%;
+        width: 100%;
+        padding: 20px 0 20px 15px;
+        @extend .Roboto-Regular;
+        font-size: pxtoem(17);
+        background: $color-background-light;
+        transition: all 0.2s ease-in-out;
+        border: none;
+        &::first-letter {
+            text-transform: capitalize;
+        }
+    }
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+    .form-item-error {
+        input:focus:valid {
+            background: $color-white;
+            outline: solid 1px $color-border-block !important;
+            border: none !important;
+            transition: all 0.2s ease-in-out;
+        }
+        //invalid input
+        input {
+            outline: solid 1px $color-form-error;
+            transition: all 0.2s ease-in-out;
+        }
+    }
+    .form-label-error {
+        color: $color-form-error;
+        margin: 15px 0 -5px 0;
+        display: block;
+        transition: all 0.2s ease-in-out;
+    }
+    //select skin
+    .select2-selection__arrow {
+        top: 20px;
+    }
+    .select2-container {
+        .select2-selection--single {
+            height: 62px;
+            .select2-selection__rendered {
+                line-height: 60px;
+            }
+            .select2-selection__arrow {
+                top: 20px;
+            }
+        }
+        &.select2-container--default {
+            width: 100% !important;
+            height: auto;
+        }
+    }
+}
+
+.add {
+    @extend .txt-title-b-1;
+}
+
+//skin file upload
+.file-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    height: 55px;
+
+    .wrapper-file {
+        width: 100%;
+        height: 100%;
+        float: none;
+        padding: 20px 0 20px 15px;
+        font-size: 1.0625em;
+        box-sizing: border-box;
+        border: solid 1px $color-border-block;
+        display: none;
+
+        @include mq($from: mobile) {
+            display: block;
+            float: left;
+            width: 80%;
+        }
+    }
+
+    &.active {
+        .wrapper-file {
+            display: block;
+        }
+    }
+
+    .wrapper-input {
+        float: none;
+        display: block;
+        width: 100%;
+        background: $color-background-dark;
+        color: $color-white;
+        text-align: center;
+        padding: 15px 40px;
+        font-size: pxtoem(11);
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 25px;
+        text-transform: uppercase;
+
+        @include mq($from: mobile) {
+            height: 100%;
+            float: right;
+            width: 20%;
+        }
+
+        .form-file {
+            cursor: pointer;
+            height: 100%;
+            filter: alpha(opacity=1);
+            opacity: 0.01;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 185px; // for hide real input and for click inside the fakeone
+            width: 100%;
+            @include mq($from: mobile) {
+                height: 100%;
+                float: right;
+                width: 20%;
+            }
+        }
+
+        .more {
+            position: absolute;
+            right: 5%;
+            top: 0;
+            width: 30px;
+            line-height: 55px;
+            cursor: pointer;
+            color: $color-text-grey;
+            font-size: pxtoem(20);
+            display: none;
+
+            @include mq($from: mobile) {
+                right: 20%;
+                display: block;
+            }
+        }
+        &.active {
+
+            .form-file {
+                z-index: -1;
+            }
+            @include mq($from: mobile) {
+                right: 20%;
+                .form-file {
+                    z-index: 10;
+                }
+            }
+
+            .more {
+                display: block;
+                transform: rotate(225deg);
+            }
+        }
+    }
+
+    .file-holder {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        color: $color-background-dark;
+    }
+
+    &.active {
+        .file-holder {
+            font-style: italic;
+            pointer-events: none;
+        }
+    }
+}
+
+//captcha size by default
+.g-recaptcha {
+    width: 100%;
+    max-width: 304px;
+    margin: 30px auto;
+}
+
+.characters-remaining {
+    font-size: pxtoem(13);
+    color: $color-text-grey;
+}
+
+.msg-invalid {
+    display: none;
+    text-align: center;
+    color: $color-form-error;
+    margin: 20px 0;
+    @extend .Roboto-Bold;
+    font-weight: 700;
+    font-size: pxtoem(12);
+    &.active {
+        display: block;
+    }
+}
+
+@include mq ($from: tablet) {
+    .section-double {
+        .form-item {
+            width: calc((100% / 2) - (1em - 1em / 2));
+            float: left;
+        }
+        .form-item + .form-item {
+            margin-left: 1em;
+        }
+    }
+}
+
+//selects
+.select2-selection__rendered {
+    text-transform: uppercase;
+    @extend .text-b-2;
+    color: $color-black;
+}
+
+.select2-container {
+    .select2-selection--single .select2-selection__rendered {
+        padding-left: 16px;
+    }
+    .select2-results__options {
+        margin: 10px 0;
+    }
+    .select2-results__option {
+        text-transform: uppercase;
+        @extend .text-b-2;
+        color: $color-text-grey;
+        padding: 10px 0 10px 16px;
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: $color-white;
+        color: $color-legrand;
+    }
+    .select2-dropdown {
+        border-radius: 0;
+        border: 1px solid $color-line-title;
+    }
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: $color-white;
+}
+
+.select2-container--default .select2-selection--single {
+    border-radius: 0;
+    border: 1px solid $color-line-title;
+}
+
+.set-67 .filter-select &.select2-container {
+    width: 73% !important;
+}
+
+.open-add-list-empty {
+    background-color: $color-black;
+    max-width: 423px;
+
+    .block-input {
+        width: 100%;
+        height: 30px;
+        padding-left: 11px;
+        font-style: italic;
+    }
+}
+
+.list-inner {
+    width: 100%;
+    padding: 15px;
+    position: relative;
+}
+
+.btn-list-valid {
+    width: 34px;
+    height: 23px;
+    color: #FFF;
+    font-size: 10px;
+    position: absolute;
+    top: 19px;
+    right: 18px;
+    padding: 5px;
+    background-color: $color-black;
+}
+
+.btn-list {
+    &.active {
+        background-color: $color-black;
+    }
+}
+
+.open-add-list {
+    max-width: 423px;
+    &.active {
+        border: 1px solid $color-border-block;
+    }
+    .list-deploy {
+        background-color: $color-white;
+        padding: 20px 20px 0;
+        cursor: default;
+        .list-item.js-add-to-wishlist {
+            cursor: pointer;
+            transform: scale(1);
+            transition: 500ms ease-out;
+            transform-origin: left top;
+            &.added {
+                font-weight: bold;
+                transform: scale(1.02);
+            }
+        }
+    }
+    .list-item {
+        @extend .text-m-1;
+        padding-bottom: 20px;
+    }
+
+    .list-item-pro {
+        color: $color-text-unactive;
+    }
+    .wishlist-context-pro {
+        .list-item {
+            color: $color-text-unactive;
+        }
+
+        .list-item-pro {
+            color: inherit;
+        }
+    }
+
+    .btn-medium {
+        position: absolute;
+        right: 15px;
+    }
+
+    .block-input {
+        background-color: transparent;
+        border: none;
+    }
+
+}
+
+.item-pro, .item-pro-btn {
+    border: 1px solid $color-border-block;
+    padding: 5px 15px;
+    margin-top: -6px;
+}
+
+.item-pro {
+    display: inline-block;
+}
+
+.item-pro-btn {
+    float: right;
+}
