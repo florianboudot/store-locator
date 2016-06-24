@@ -39,7 +39,7 @@
                             <span class="city-nearby">
                                 &lt;VILLE&gt;
                             </span>
-                            <span class="list-count color-legrand">
+                            <span class="list-count color-orange">
                                 (x)
                             </span>
                         </h1>

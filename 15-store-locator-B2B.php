@@ -15,7 +15,7 @@
         <div class="section-inner">
             <div class="section-content">
                 <?php
-                $json_url = 'json/legrand-stores-B2B.json';
+                $json_url = 'json/stores.json';
                 $search_what = "distributeur";
                 include('inc/modules/module-store-locator.php');
                 ?>

@@ -46,9 +46,9 @@ button.btn:not(.btn-medium):not(.btn-main) {
     border: 1px solid $color-line-title;
 
     &:hover {
-        background: $color-legrand;
+        background: $color-orange;
         color: $color-white;
-        border: 1px solid $color-legrand;
+        border: 1px solid $color-orange;
     }
 
 }
@@ -56,7 +56,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
 .btn-main-bg-orange {
     font-size: pxtoem(13);
     padding: 14px 40px;
-    background: $color-legrand;
+    background: $color-orange;
     border: none;
     color: $color-white;
     &:hover {
@@ -95,9 +95,9 @@ button.btn:not(.btn-medium):not(.btn-main) {
     position: relative;
 
     &:hover, &.active {
-        background: $color-legrand;
+        background: $color-orange;
         color: $color-white;
-        border: 1px solid $color-legrand;
+        border: 1px solid $color-orange;
     }
     .icon-end {
         position: absolute;
@@ -106,7 +106,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
         margin-top: -10px;
     }
     &.decli {
-        border: 1px solid $color-legrand;
+        border: 1px solid $color-orange;
         &:hover {
             background: $color-black;
             color: $color-white;
@@ -124,7 +124,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
 
 .btn-legrand {
     color: $color-white;
-    background: $color-legrand;
+    background: $color-orange;
     font-size: pxtoem(12);
     padding: 5px 25px;
     &:hover {
@@ -159,7 +159,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
 
 .btn-product-img-label {
     color: $color-white;
-    background: $color-legrand;
+    background: $color-orange;
     font-size: pxtoem(12);
     padding: 5px 10px;
     @include mq($until: mobile) {
