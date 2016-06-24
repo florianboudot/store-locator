@@ -7,5 +7,6 @@ Store locator
 3. `grunt fw` scss watcher (creates and overwrites `/styles/all.css`)
 
 # credits 
-* geocoder bt mapzen search
+Open-source projects used :
+* geocoder by [mapzen search](https://mapzen.com/documentation/search/)
 
