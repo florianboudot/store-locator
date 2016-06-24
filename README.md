@@ -5,3 +5,7 @@ Store locator
 1. `npm install`
 2. `npm run wp -- --watch` js watcher (creates and overwrites `/scripts/bundle.js`)
 3. `grunt fw` scss watcher (creates and overwrites `/styles/all.css`)
+
+# credits 
+* geocoder bt mapzen search
+
