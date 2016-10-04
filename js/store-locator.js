@@ -1,19 +1,29 @@
 var getTpl = require("./libs/get-tpl").default;
-var device = require("./base/basics").getDevice;
-
+var device = require("./libs/device").getDevice;
+var ajax = require("./libs/ajax").default; //
 
 var mStoreLocator = (function () {
     // SETTINGS
+    var $body = $('body');
     var map_id = 'map';
+    var isMapPage = false;
     var $map = $('#' + map_id);
+    var is_desktop = null;
     var json_url = $map.data('json-url');
-    var style_url = 'mapbox://styles/frontmodem/cinkehgzt0250d5m3t26y6q8u'; // account 'frontmodem' // todo change mapzen account to mine
+    var style_url = 'mapbox://styles/frontmodem/cinkehgzt0250d5m3t26y6q8u'; // account 'frontmodem'
     var init_coords = [$map.data('coord-lat'), $map.data('coord-lng')];
+
     var default_coords = [47.27177506640826, 2.724609375]; // france
     var is_init_coords = init_coords[0] && init_coords[0] != '';
     var coords = is_init_coords ? init_coords : default_coords; // france
     var mapzen_key = 'search-GmnWoUR'; // account 'frontmodem'
-    L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot // todo change mapbox account to mine
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot
+    var status = {
+        markers_in_view: 0,
+        markers: [],
+        searched_locality: '',
+        init_destination: $map.data('destination')
+    };
 
     // DOM elements
     var $filters = $('.js-filter-markers');
@@ -27,7 +37,6 @@ var mStoreLocator = (function () {
     var $store_container = $('#store-locator-container');
 
     // vars
-    var addMarkers;
     var $list_count = $('.list-count');
     var is_page_showrooms = $store_container.hasClass('page-showrooms');
     var my_geocoder = []; // geocoder fields
@@ -79,58 +88,44 @@ var mStoreLocator = (function () {
         alert(msg);
     };
 
+
+    var errorCallback = function (error) {
+        if (pm.debug)console.error('error', error);
+    };
+
     // map to my position
     var geolocateMe = function (e) {
+        let $btn = $(this);
+
         var successCallback = function (position) {
+            //Bug #53268 add condition to redirect or just setView: HTML must be changed
+            if (isMapPage) {
+                map.setView({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    ZOOM_LOCATE_ME, {
+                        animate: true
+                    });
+                goToPanel(2);
+            }
+            else {
+                let $form = $btn.parents('form:first');
+                if ($form.length) {
+                    $form.find('#lat').val(position.coords.latitude);
+                    $form.find('#lng').val(position.coords.longitude);
+                    $form.trigger('submit')
+                }
+                else {
+                    console.error('No form found to geolocate');
+                }
 
-            // set view
-            map.setView({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                },
-                ZOOM_LOCATE_ME, {
-                    animate: true
-                });
-        };
-
-        var errorCallback = function (error) {
-            if (pm.debug)console.error('error', error);
+            }
         };
 
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         $('.JS_toggler[data-toggler-group="header"]').trigger('close');
         e.preventDefault();
-    };
-
-    var locationHighlighted = function (obj) {
-        map.setView(obj.latlng, ZOOM_LOCATE_ME - 2, {animate: true}); // zoom to
-    };
-
-    var locationSelected = function (obj) {
-        if (obj.target) {
-            geomarker = obj.target.marker;
-            map.closePopup();
-        }
-
-        let $form;
-        //if we have an input or the event containing an input
-        if (this.tagName === 'INPUT') {
-            $form = $(this);
-        }
-        else {
-            $form = $(this._input).parents('form:first');
-        }
-        //if we have a form we submit it
-        if ($form.length) {
-            $form.submit();
-        }
-        //if we are on the storeloc
-        if (list_container) {
-            // zoom to selected result
-            map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: /d/.test(device())});
-            buildListItems();
-            goToPanel(2);
-        }
     };
 
     var clearMarker = function () {
@@ -159,23 +154,29 @@ var mStoreLocator = (function () {
      * usage : <button class="js-display-panel" data-display-panel="1"></button>
      */
     var goToPanel = function (panel_num) {
+        if (pm.debug)console.trace('goToPanel', panel_num, this);
         let $button_clicked;
+
         if (typeof panel_num != "number") {
             $button_clicked = $(this);
-            panel_num = $button_clicked.data('display-panel');
+            panel_num = $button_clicked.data('display-panel'); // button "effacer"
         }
+
         if (panel_num == 1) {
             if ($button_clicked) {
                 clearMarker();
             }
+            if (!is_desktop) {
+                toggleMobileListMap('list');  // on mobile, go to panel 1 remove map #52679
+            }
         }
         else if (panel_num == 2) {
-            if (!is_page_showrooms) {
-                toggleMobileListMap('list');
-            }
+            toggleMobileListMap(status.markers_in_view > 0 ? 'list' : 'map');
 
             $('body').animate({scrollTop: 0}, 500);
         }
+
+        // show panel
         $panel_container.attr('class', 'display-panel-' + panel_num);
 
         // reset geocoder field
@@ -185,20 +186,34 @@ var mStoreLocator = (function () {
 
     // get biggest city by counting occurences
     var getMainCity = function (items) {
-        var citiesCount = {};
-        items.forEach(function (store) {
-            citiesCount[store.options.city] = (citiesCount[store.options.city] || 0) + 1;
-        });
-        var count = items.length;
+        if (pm.debug)console.log('getMainCity');
 
-        var main_city = Object.keys(citiesCount).sort(function (a, b) {
-            return citiesCount[b] - citiesCount[a];
-        })[0];
+        var main_city = '';
+        var count = 0;
+        if (!items) {
+            if (status.searched_locality != '') {
+                main_city = status.searched_locality;
+            }
+            else if (status.init_destination != '') {
+                main_city = status.init_destination;
+            }
+        }
+        else {
+            var citiesCount = {};
+            items.forEach(function (store) {
+                citiesCount[store.options.city] = (citiesCount[store.options.city] || 0) + 1;
+            });
+            count = items.length;
+
+            main_city = Object.keys(citiesCount).sort(function (a, b) {
+                return citiesCount[b] - citiesCount[a];
+            })[0];
+        }
+        var plus = count >= MAX_RESULTS ? '+' : '';
+        $list_count.html('(' + count + plus + ')');
 
         // write result
         $city.html(main_city);
-        var plus = count >= MAX_RESULTS ? '+' : '';
-        $list_count.html('(' + count + plus + ')');
     };
 
     var clearActiveMarker = function () {
@@ -237,8 +252,31 @@ var mStoreLocator = (function () {
 
             // open / close item
             $(this).toggleClass('active', is_open);
+            is_open && $(this).trigger('open');
+
             map.setView(marker.getLatLng(), ZOOM_LOCATE_ME, {animate: true});
         });
+
+        $(elt).on('open', function () {
+            // push tracking event
+            var type = marker.options.type;
+            if (type == undefined) {
+                type = /pro\//.test(document.location.pathname) ? 'distributeurs' : 'magasins';
+            }
+            else {
+                type = type == 'showroom' ? 'showrooms' : 'directions regionales';
+            }
+
+            var infos = {
+                'event': 'storeView', // storeView, storeItinerary
+                'eventCategory': 'storelocator',
+                'eventAction': `${type}::view`, // magasins|distributeurs|directions regionales|showrooms::view|itinerary
+                'eventLabel': `${marker.options.title}::${marker.options.acc_id}`,
+                'eventValue': `${marker.options.zip}::${marker.options.city}`
+            };
+            dataLayer && dataLayer.push(infos);
+        });
+
 
         $(elt).on('mouseenter', function () {
             clearTimeout(TIMEOUT);
@@ -267,6 +305,7 @@ var mStoreLocator = (function () {
         list_container.appendChild(elt);
     };
 
+
     var scrollListToActiveItem = function () {
         var $active = $list_container.find('.item.active');
         var is_active_item = $active.length > 0;
@@ -278,56 +317,7 @@ var mStoreLocator = (function () {
         }
     };
 
-    /**
-     *
-     * @param {Object} params
-     */
-    var buildListItems = function (params) {
-        var options = params || {};
-        var action = options.action || null;
-        list_container.innerHTML = '';
-        active_marker = null; // reset
-        var store_items = []; // empty
-        var bounds = map.getBounds();
-        var home = map.getCenter();
-        var limit = 0;
-        var getDataFromMarker = function (marker) {
-            var marker_coords = marker.getLatLng();
-            if (bounds.contains(marker_coords) && limit < MAX_RESULTS) {
-                marker.options.distance = (home.distanceTo(marker_coords) / 1000).toFixed(1);
-                store_items.push(marker);
-                limit++;
-            }
-        };
-        for (var layer in groups) {
-            if (groups.hasOwnProperty(layer)) {
-                if (layer == 'group-' + current_group || current_group == 'all') {
-                    groups[layer].eachLayer(getDataFromMarker);
-                }
-            }
-        }
 
-        if (store_items.length > 0) {
-            if (/d/.test(device()) && action === 'move') {
-                goToPanel(2);
-            }
-            // sort items
-            store_items.sort(function (a, b) {
-                return a.options.distance - b.options.distance;
-            });
-            // insert items
-            store_items.forEach(buildHtmlItem);
-            // back to top
-            scrollListToActiveItem();
-        }
-        else {
-            /d/.test(device()) && goToPanel(1); // todo : check if markers in view first
-        }
-        // display main city
-        getMainCity(store_items);
-        // reset limit
-        limit = 0;
-    };
     /**
      * Markers cluster group for each type of place (agences, showrooms)
      * should look like :
@@ -338,16 +328,94 @@ var mStoreLocator = (function () {
      */
     var groups = {};
 
+
+    var getMarkersInView = function () {
+        if (pm.debug)console.info('getMarkersInView');
+        var markers = []; // empty
+        var limit = 0;
+        var home = map.getCenter();
+        var bounds = map.getBounds();
+
+        var getDataFromMarker = function (marker) {
+            var marker_coords = marker.getLatLng();
+            if (bounds.contains(marker_coords) && limit < MAX_RESULTS) {
+                marker.options.distance = (home.distanceTo(marker_coords) / 1000).toFixed(1);
+                markers.push(marker);
+                limit++;
+            }
+        };
+
+        // todo : time = 1800ms on mobile (380ms on desktop)
+        status.markers.forEach(function (markers, index, array) {
+            if (index == current_group || current_group == 'all') {
+                markers.forEach(getDataFromMarker);
+            }
+        });
+
+        status.markers_in_view = markers.length;
+
+        // reset limit
+        limit = 0;
+        return markers;
+    };
+
+
+    /**
+     * buildListItems
+     * @param {Object} params
+     */
+    var buildListFromMarkersInView = function (params = {}) {
+        if (pm.debug)console.trace('buildListFromMarkersInView', params, is_desktop);
+
+        var action = params.action || null;
+
+        // reset
+        list_container.innerHTML = '';
+        active_marker = null;
+
+        var stores_in_view = getMarkersInView();
+
+
+        var is_results = stores_in_view.length > 0;
+        if (is_results) {
+            if (pm.debug)console.log('buildListFromMarkersInView has results');
+
+            if (is_desktop && action === 'move' || !is_desktop && action !== 'move') {
+                goToPanel(2);
+            }
+
+            // sort items
+            stores_in_view.sort(function (a, b) {
+                return a.options.distance - b.options.distance;
+            });
+
+            // update list items
+            stores_in_view.forEach(buildHtmlItem);
+            scrollListToActiveItem();
+            getMainCity(stores_in_view);
+        }
+        else {
+            if (pm.debug)console.log('buildListFromMarkersInView has no results');
+
+            is_desktop ? goToPanel(1) : goToPanel(2);
+            getMainCity();
+        }
+
+        return is_results;
+    };
+
     // list all visible markers
     var handleListLayout = function (param) {
+        if (pm.debug)console.trace('handleListLayout');
+
         if (!list_container) {
             return;
         }
         if (map.getZoom() >= ZOOM_TO_BUILD_LIST || is_page_showrooms) {
-            buildListItems(param);
+            buildListFromMarkersInView(param);
         }
-        else {
-            list_container.innerHTML = 'vide';
+        else if (is_desktop) {
+            list_container.innerHTML = 'aucun résultat';
             goToPanel(1);
         }
     };
@@ -380,91 +448,110 @@ var mStoreLocator = (function () {
         }).addTo(map);
     };
 
-    // add all markers in layer
-    addMarkers = function (data) {
-        var data_length = data.length;
-        var array_of_markers = [];
+    var markerClick = function (marker) {
+        clearActiveMarker();
+        $(marker.target._icon).addClass('selectedMarker');
+        marker.target.openPopup();
 
-        for (var i = 0; i < data_length; i++) {
-            var a = data[i]; // {"company_name": "TRUC ELECTRIC", "long": 5.404651, "lat": 43.2750209}
-            var type = a.place_type;  // "0" = showroom, "1" = agence
-            var is_showroom_or_agence = type != undefined;
-            var type_class = is_showroom_or_agence ? 'group-' + type : 'rien';  // "0" = showroom, "1" = agence
-            var lat = a.lat.toString().replace(',', '.'); // todo cleanup json instead
-            var lng = a.lng.toString().replace(',', '.');
-            var tel = a.tel == "00 00 00 00 00" || a.tel == 0 ? '' : `<span class="txt tel">tél : ${a.tel}</span>`;
-            var fax = a.fax == "00 00 00 00 00" || a.fax == 0 ? '' : `<span class="txt fax">fax : ${a.fax}</span>`;
-            var web_url = a.web == 0 ? '' : a.web;
-            var web = web_url == '' ? '' : `<a href="http://${web_url}" class="txt web" target="_blank">${web_url}</a>`;
-            var address1_val = a.add_1 != 0 ? a.add_1.toString().toLowerCase() : '';
-            var address1 = address1_val != '' ? `<span class="txt address address1">${address1_val}</span>` : '';
-            var address2_val = a.add_2 != 0 ? a.add_2.toString().toLowerCase() : '';
-            var address2 = address2_val != '' ? `<span class="txt address address2">${address2_val}</span>` : '';
-            var title = a.name;
-            var zip = a.cp;
-            var city = a.city;
-            var direction = [address1_val, address2_val, zip, city].join(', ');
-            // var my_pos = localStorage && localStorage.my_pos ? localStorage.my_pos : '';
-            var itinerary_url = 'https://www.google.fr/maps/dir//' + direction;
-            var itinerary = is_showroom_or_agence ? '' : `<a href="${itinerary_url}" class="bt-itinerary" target="_blank"><i class="icon-directions icon"></i>Calcul de l'itinéraire</a>`;
-            var more = is_showroom_or_agence && type == "0" && web_url != '' ? `<a href="http://${web_url}" class="bt-more btn btn-medium decli-reverse" target="_blank">En savoir +</a>` : '';
-            var contact = is_showroom_or_agence ? '<a href="/contact" class="bt-contact btn btn-legrand" target="_blank">Contacter</a>' : '';
-            var show_map = '<span class="bt-show-map js-toggle-list-map"><i class="icon-localisation icon"></i>Afficher la carte</span>';
-            var dept = is_showroom_or_agence && type == "1" && a.dept != undefined && a.dept.length > 0 ? '<span class="dept">Départements : ' + a.dept.join(' - ') + '</span>' : '';
+        var mk_id = marker.target.options.id;
+        var $list_item = $('#item-' + mk_id);
 
-            var mk_options = {
-                id: i,
-                title: title, // "TRUC ELECTRIC"
-                address1: address1,
-                address2: address2,
-                city: city,
-                zip: zip,
-                itinerary: itinerary,
-                tel: tel,
-                fax: fax,
-                web: web,
-                dept: dept,
-                contact: contact,
-                show_map: show_map,
-                more: more,
-                type: type, // "0" = agence, "1" = showroom
-                icon: html_icon(type_class)
-            };
+        active_marker = marker.target;
+        if (map.getZoom() < ZOOM_TO_BUILD_LIST) {
+            var mk_coords = this.getLatLng();
+            map.setView(mk_coords, ZOOM_TO_BUILD_LIST, {animate: true});
+        }
+        else if ($list_item.length == 0) {
+            buildListFromMarkersInView();
+        }
+        else {
+            $list_item.one('transitionend', scrollListToActiveItem);
+            $list_item.addClass('active');
+            $list_item.trigger('open');
+        }
+    };
 
-            var marker = L.marker(L.latLng(lat, lng), mk_options);
 
-            var popup_content = getTpl(mk_options, 'marker-popup-content');
+    var filters = null;
+    var convertMarkerOptions = function (data, id) {
+        var opt = {};
+
+        opt.id = id;
+        opt.acc_id = data.acc_id;
+        opt.lat = data.lat.toString().replace(',', '.'); // todo cleanup json instead
+        opt.lng = data.lng.toString().replace(',', '.');
+        opt.tel = data.tel == "00 00 00 00 00" || data.tel == 0 ? '' : `<span class="txt tel">tél : ${data.tel}</span>`;
+        opt.fax = data.fax == "00 00 00 00 00" || data.fax == 0 ? '' : `<span class="txt fax">fax : ${data.fax}</span>`;
+        opt.title = data.name;
+        opt.surname = data.surname;
+        opt.filter = filters && filters != undefined ? filters[0].values[data.filters[0]] : '';
+        opt.location = data.location;
+        opt.zip = data.cp;
+        opt.city = data.city;
+
+        var address1_val = data.add_1 != 0 && data.add_1 != undefined ? data.add_1.toString() : '';
+        opt.address1 = address1_val != '' ? `<span class="txt address address1">${address1_val}</span>` : '';
+        var address2_val = data.add_2 != 0 && data.add_1 != undefined ? data.add_2.toString() : '';
+        opt.address2 = address2_val != '' ? `<span class="txt address address2">${address2_val}</span>` : '';
+        var direction = [address1_val, address2_val, opt.zip, opt.city].join(', ');
+        var itinerary_url = 'https://www.google.fr/maps/dir//' + direction;
+
+        var type = data.place_type;  // "0" = showroom, "1" = agence
+        var is_showroom_or_agence = type != undefined;
+        var type_class = is_showroom_or_agence ? 'group-' + type : 'rien';  // "0" = showroom, "1" = agence
+        opt.icon = html_icon(type_class);
+        opt.itinerary = is_showroom_or_agence ? '' : `<a href="${itinerary_url}" class="bt-itinerary" target="_blank"><i class="icon-directions icon"></i>Calcul de l'itinéraire</a>`;
+
+        // web site
+        var web_url = data.web == 0 ? '' : data.web;
+        opt.web = web_url == '' ? '' : `<a href="${web_url}" class="txt web" target="_blank">${web_url}</a>`;
+
+        // button more (en savoir +)
+        var path = data.path == 0 ? '' : data.path;
+        var contact_url = data.contact == undefined && data.contact == 0 ? '' : data.contact;
+        var has_content = data.hascontent != undefined ? data.hascontent : '';
+        opt.more = is_showroom_or_agence && type == "0" && path != '' && has_content != '' ? `<a href="${path}" class="bt-more btn btn-medium decli-reverse">En savoir +</a>` : '';
+
+        opt.contact = is_showroom_or_agence ? `<a href="${contact_url}" class="bt-contact btn btn-legrand">Contacter</a>` : '';
+        opt.visual = data.visual != undefined && data.visual != 0 ? data.visual : '';
+        opt.show_map = '<span class="bt-show-map js-toggle-list-map"><i class="icon-localisation-empty-thin icon"></i>Afficher la carte</span>';
+        opt.dept = is_showroom_or_agence && type == "1" && data.dept != undefined && data.dept.length > 0 ? '<span class="dept">Départements : ' + data.dept.join(' - ') + '</span>' : '';
+        opt.type = type;
+
+        // todo cleanup properties, some are needed only in B2C or B2B or showroom, etc
+        //console.log('opt',opt);
+
+        return opt;
+    };
+
+
+    // add all markers in layer (only once)
+    var addMarkers = function (d) {
+        if (pm.debug)console.log('addMarkers');
+        var is_chantiers_clients = d[0].items !== undefined; // page je m'inspire
+        var data = d[0].items ? d[0].items : d;
+        filters = is_chantiers_clients ? d[0].index.filters : null;
+
+        for (var i = 0, data_length = data.length; i < data_length; i++) {
+            // create marker
+            var mk_options = convertMarkerOptions(data[i], i);
+            var marker = L.marker(L.latLng(mk_options.lat, mk_options.lng), mk_options);
+
+            // bind popup content
+            var popup_content = getTpl(mk_options, is_chantiers_clients ? 'marker-chantiers-clients-popup-content' : 'marker-popup-content');
             marker.bindPopup(popup_content);
 
-            marker.on('click', function (marker) {
-                clearActiveMarker();
-                $(marker.target._icon).addClass('selectedMarker');
-                marker.target.openPopup();
+            // bind click on marker
+            marker.on('click', markerClick);
 
-                var mk_id = marker.target.options.id;
-                var $list_item = $('#item-' + mk_id);
-
-                active_marker = marker.target;
-                if (map.getZoom() < ZOOM_TO_BUILD_LIST) {
-                    var mk_coords = this.getLatLng();
-                    map.setView(mk_coords, ZOOM_TO_BUILD_LIST, {animate: true});
-                }
-                else if ($list_item.length == 0) {
-                    buildListItems();
-                }
-                else {
-                    $list_item.one('transitionend', scrollListToActiveItem);
-                    $list_item.addClass('active');
-                }
-            });
-            var index = a.place_type || '0';
-            array_of_markers[index] = array_of_markers[index] || [];
-            array_of_markers[index].push(marker);
+            // store markers by group
+            var index = mk_options.type || '0';
+            status.markers[index] = status.markers[index] || [];
+            status.markers[index].push(marker);
         }
 
-        // insert all markers into clustergroup
-        var nb_groups = array_of_markers.length;
-        for (var j = 0; j < nb_groups; j++) {
+        // insert markers into clustergroups
+        for (var j = 0, nb_groups = status.markers.length; j < nb_groups; j++) {
             var group_id = 'group-' + j;
             var classname = nb_groups == 1 ? 'no-class' : group_id;
 
@@ -472,15 +559,13 @@ var mStoreLocator = (function () {
             groups[group_id] = groups[group_id] || makeGroup(classname);
 
             // insert all markers into clustergroup
-            groups[group_id].addLayers(array_of_markers[j]);
+            groups[group_id].addLayers(status.markers[j]);
         }
-
-        // first init
-        handleListLayout({action:'move'});
     };
 
 
     var switchMarkers = function () {
+        if (pm.debug)console.log('switchMarkers');
         var $bt = $(this);
         var checked_type = $bt.data('place-type');
 
@@ -488,8 +573,6 @@ var mStoreLocator = (function () {
             current_group = checked_type;
             $filters.removeClass('active');
             $bt.addClass('active');
-
-            var is_all = checked_type == 'all';
 
             for (var layer_name in groups) {
                 if (groups.hasOwnProperty(layer_name)) {
@@ -502,24 +585,27 @@ var mStoreLocator = (function () {
                     }
                 }
             }
-
-            if(is_all && map.getZoom() > ZOOM_DEFAULT){
-                map.setView(coords, ZOOM_DEFAULT, {
-                    animate: true
-                });
-            }
             handleListLayout();
+        }
+
+        if (map.getZoom() > ZOOM_DEFAULT) {
+            map.setView(coords, ZOOM_DEFAULT, {
+                animate: true
+            });
         }
     };
 
     var onMapMoveEnd = function () {
-        handleListLayout({action:'move'});
+        if (pm.debug)console.log('MapMoveEnd');
+        handleListLayout({action: 'move'});
     };
 
     var bindMapMove = function () {
+        if (pm.debug)console.log('bindMapMove');
         map.on('moveend', onMapMoveEnd); // 'zoomend' will trigger 'moveend'
     };
     var unbindMapMove = function () {
+        if (pm.debug)console.log('unbindMapMove');
         map.off('moveend', onMapMoveEnd);
     };
 
@@ -529,7 +615,10 @@ var mStoreLocator = (function () {
     };
 
     var toggleMobileListMap = function (force) {
+        if (pm.debug)console.log('toggleMobileListMap', force);
+
         var is_list_open = !$sidebar.hasClass('active');
+
         if (typeof force === 'string' && force == 'list') {
             is_list_open = true;
         }
@@ -545,10 +634,42 @@ var mStoreLocator = (function () {
         $('.btn-see-card').toggleClass('hidden', !is_list_open);
     };
 
+    var locationHighlighted = function (obj) {
+        map.setView(obj.latlng, ZOOM_LOCATE_ME - 2, {animate: true}); // zoom to
+    };
+
+    var locationSelected = function (obj) {
+        if (pm.debug)console.log('locationSelected', obj);
+        if (obj.target) {
+            geomarker = obj.target.marker;
+            map.closePopup();
+        }
+
+        if (obj.feature) { // if selected in autocomplete list
+            status.searched_locality = obj.feature.properties.name;
+        }
+
+        //if we have an input or the event containing an input
+        let $form = this.tagName === 'INPUT' ? $(this) : $(this._input).parents('form:first');
+
+        //if we have a form we submit it
+        if ($form.length) {
+            $form.submit();
+        }
+
+        //if we already are on the storeloc page
+        if (list_container) {
+            // zoom to selected result
+            map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: is_desktop});
+            buildListFromMarkersInView();
+            goToPanel(2);
+        }
+    };
+
     var buildGeocoder = function (i, o) {// geocoder
         // mapzen documentation :  https://mapzen.com/documentation/search/search/
         var $geocoder_div = $(o);
-        var $form = $geocoder_div.parents('form').first();
+        var $form = $geocoder_div.parents('form').first();//todo proper way to target form
         var is_form = $form.length > 0;
         my_geocoder[i] = new L.control.geocoder(mapzen_key, {
             fullWidth: false,
@@ -567,7 +688,7 @@ var mStoreLocator = (function () {
             querySize: 80, // number of results in the query (added by flobou)
             resultsSize: 10, // (added by flobou)
             allowSubmit: is_form,
-            layers: 'locality,address', // 'locality,address'
+            layers: 'locality', // 'locality,address'
             latlng: true,
             placeholder: $geocoder_div.data('input-placeholder'),
             autocomplete: false // if false will use '/search' service url instead of '/autocomplete'
@@ -584,7 +705,7 @@ var mStoreLocator = (function () {
         if (is_form) {
             $form.on('submit', function (e) {
                 if ($map.length > 0 && !is_page_showrooms) {
-                    $('.JS_toggler[data-toggler-group="header"]').trigger('close');
+                    $('#header .JS_menu_trigger').trigger('close.menu');
                     e.preventDefault();
                     resetGeoFields();
                     clearMarker();
@@ -602,8 +723,12 @@ var mStoreLocator = (function () {
         $input.on('keydown', function (e) {
             //todo request results if not displayed (timeout 400ms)
             let _this = this;
-            if (first_result[i] && e.keyCode == 13) {// 13 = enter
+            var is_list_item_highlighted = $('.leaflet-pelias-selected').length;
+            var is_enter_key = e.keyCode == 13;
+
+            if (first_result[i] && is_enter_key && !is_list_item_highlighted) {// 13 = enter
                 var coordinates = first_result[i].geometry.coordinates; // array
+                status.searched_locality = first_result[i].properties.name; // city name to display if no results
 
                 locationSelected.call(_this, {
                     'latlng': {
@@ -636,11 +761,13 @@ var mStoreLocator = (function () {
 
 
     var geolocationButtons = function () {
-        if ("geolocation" in navigator) {
-            $btn_locate_me.on('click', geolocateMe);
-        }
-        else {
-            $btn_locate_me.hide();
+        if ($btn_locate_me.length > 0) {
+            if ("geolocation" in navigator) {
+                $btn_locate_me.on('click', geolocateMe);
+            }
+            else {
+                $btn_locate_me.hide();
+            }
         }
     };
 
@@ -648,45 +775,64 @@ var mStoreLocator = (function () {
      * init
      */
     var init = function () {
+        is_desktop = /d/.test(device());
         if (document.querySelector('#' + map_id)) {
+            isMapPage = true;
+
             // init map (mapbox is build on top of leaflet)
             map = L.mapbox.map(map_id);
-            // window.mapp = map; //uncomment for debug
+
+
+            // set max zoom
+            var max_zoom = $('#' + map_id).data('max-zoom');
+            if (max_zoom) {
+                map.options.maxZoom = max_zoom;
+            }
+
             // map style
             L.mapbox.styleLayer(style_url).addTo(map);
 
             // on map move end
-            bindMapMove();
             map.setView(coords, ZOOM_DEFAULT);
 
             $list_container.on('mouseenter', unbindMapMove).on('mouseleave', bindMapMove);
+            bindMapMove();
 
             // load json
-            $.ajax({
+            ajax({
                 url: json_url,
                 dataType: "json",
                 error: handleAjaxError
-            }).done(addMarkers);
+            }, false)
+                .done(addMarkers)
+                .then(function () {
+                    // bind buttons display panel
+                    $body.on('click', '.js-display-panel', goToPanel);
 
-            // bind buttons display panel
-            $('body').on('click', '.js-display-panel', goToPanel);
+                    // bind buttons (page agences et showrooms)
+                    $filters.on('click', switchMarkers);
 
-            // bind buttons (page agences et showrooms)
-            $filters.on('click', switchMarkers);
+                    map.on('click', clearActiveMarker);
 
-            // handle geolocation buttons
-            geolocationButtons();
+                    // toggle list map
+                    $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
 
-            map.on('click', clearActiveMarker);
+                    // page showrooms and agences (or DR:directions regionales)
+                    let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
 
-            // toggle list map
-            $('body').on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
+                    // first init
+                    DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout({action: 'move'});
+                });
         }
         if ($geocoder_divs.length > 0) {
             map = map || L.mapbox.map('map-fake').setView(coords, ZOOM_DEFAULT);
             // insert geocoder in html (mapzen search)
             $geocoder_divs.each(buildGeocoder);
         }
+
+        // handle geolocation buttons
+        geolocationButtons();
+
         window._map = map;
     };
 

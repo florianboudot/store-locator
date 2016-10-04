@@ -1,7 +1,5 @@
 /*
- * (modified by Florian Boudot) // todo remove hacks from file
- *
- * leaflet-geocoder-mapzen version 1.5.2
+ * leaflet-geocoder-mapzen version 1.5.2 (modified by florian boudot)
  * Leaflet plugin to search (geocode) using Mapzen Search or your
  * own hosted version of the Pelias Geocoder API.
  *
@@ -158,7 +156,7 @@
                 }
             }
 
-            function makeParamsFromLeaflet (params, latLngBounds) {
+            function makeParamsFromLeaflet(params, latLngBounds) {
                 params['boundary.rect.min_lon'] = latLngBounds.getWest();
                 params['boundary.rect.min_lat'] = latLngBounds.getSouth();
                 params['boundary.rect.max_lon'] = latLngBounds.getEast();
@@ -259,9 +257,14 @@
 
 
             var is_postcode = /^\d{5}$/.test(params.text); // added by flobou
-            if(is_postcode){
+            if (is_postcode) {
                 // e,nlarge your query
-                params = this.getQuerySize(params); // (added by flobou) 
+                params = this.getQuerySize(params); // (added by flobou)
+                var _this = this;
+                $.getJSON('./services/locator/cp.php', {cp: params.text}).done(function (res) {
+                    _this.showResults(res.datas, params.text, res.datas.length)
+                });
+                return false;
             }
 
             // Search API key
@@ -412,12 +415,10 @@
         showResults: function (features, input, results_size) {
             // Exit function if there are no features
             if (features.length === 0) {
-                this.showMessage('No results were found.');
+                this.showMessage('Aucun résultat trouvé');
                 return;
             }
 
-            // identify postcode
-            var is_postcode = /^\d{5}$/.test(input); // added by flobou
             var resultsContainer = this._results;
 
             // Reset and display results container
@@ -430,7 +431,7 @@
 
             var all_locality_localadmin = [];
             for (var i = 0, j = features.length; i < j; i++) {
-                if(document.querySelectorAll('.leaflet-pelias-result').length >= results_size){
+                if (document.querySelectorAll('.leaflet-pelias-result').length >= results_size) {
                     return;
                 }
 
@@ -463,31 +464,7 @@
                 }
 
                 // handle postcode result (added by flobou)
-                if(is_postcode) {
-                    var postcode = feature.properties.postalcode;
-                    var locality_localadmin = feature.properties.locality || feature.properties.localadmin;
-                    if(all_locality_localadmin.indexOf(locality_localadmin) >= 0){
-                        resultItem.parentNode.removeChild(resultItem);
-                        continue;
-                    }
-                    all_locality_localadmin.push(locality_localadmin);
-
-                    if (input === postcode) {
-                        resultItem.innerHTML += this.highlight(postcode + ' ' + locality_localadmin, input);
-                        continue;
-                    }
-                    else if (is_end_of_list) {
-                        this.showMessage('No results were found.');
-                        return;
-                    }
-                    else {
-                        resultItem.parentNode.removeChild(resultItem);
-                        continue; // go to next iteration
-                    }
-                }
-                else {
-                    resultItem.innerHTML += this.highlight(feature.properties.label, input);
-                }
+                resultItem.innerHTML += this.highlight(feature.properties.label, input);
             }
         },
 
@@ -746,7 +723,7 @@
                                 var text = (e.target || e.srcElement).value;
                                 this.search(text);
                             }
-                            if(!this.options.allowSubmit){
+                            if (!this.options.allowSubmit) {
                                 L.DomEvent.preventDefault(e);
                             }
                             break;
@@ -859,7 +836,8 @@
                         L.DomUtil.removeClass(_selected, 'leaflet-pelias-selected');
                     }
 
-                    var selected = e.target || e.srcElement; /* IE8 */
+                    var selected = e.target || e.srcElement;
+                    /* IE8 */
                     var findParent = function () {
                         if (!L.DomUtil.hasClass(selected, 'leaflet-pelias-result')) {
                             selected = selected.parentElement;
@@ -1101,7 +1079,7 @@
     /*
      * throttle Utility function (borrowed from underscore)
      */
-    function throttle (func, wait, options) {
+    function throttle(func, wait, options) {
         var context, args, result;
         var timeout = null;
         var previous = 0;
@@ -1137,7 +1115,7 @@
      * escaping a string for regex Utility function
      * from https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
      */
-    function escapeRegExp (str) {
+    function escapeRegExp(str) {
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
     }
 }));

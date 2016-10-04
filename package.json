@@ -1,12 +1,11 @@
 {
-  "name": "Legrand",
-  "description": "Package de gestion du site Legrand",
+  "name": "Storelocator",
+  "description": "Storelocator",
   "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "webpack --progress --colors --watch --config webpack.config.dev.js | grunt fw",
     "wp": "webpack --config webpack.config.prod.js",
-    "wpd": "webpack --config webpack.config.dev.js",
     "build": "npm run wp && grunt s && grunt build",
     "build_dev": "webpack --config webpack.config.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"

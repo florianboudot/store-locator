@@ -49,8 +49,13 @@
             margin-bottom: 0;
             margin-right: 10px;
         }
-        &.active {
+        &.active:not(.filter-all) {
             cursor: auto;
+        }
+        &.active {
+            background-color: $color-orange;
+            border-color: $color-orange;
+            color: white;
         }
         &.filter-agences {
             color: $colorAgences;
@@ -131,12 +136,6 @@
     }
 }
 
-.page-showrooms {
-    .btn-see-card {
-        margin-top: -20px;
-    }
-}
-
 #panel-container {
     position: absolute;
     top: 0;
@@ -159,6 +158,13 @@
     .page-showrooms & .list-title .btn-back,
     .page-showrooms & .list-title .btn-locate-me {
         display: none !important;
+    }
+
+
+    @include mq($from: desktop) {
+        .page-showrooms & .list-title {
+            display: none;
+        }
     }
 
     &.display-panel-2,
@@ -227,7 +233,9 @@
         }
     }
 }
-
+.city-nearby {
+    text-transform: uppercase;
+}
 #stores-list {
     overflow: auto;
     margin-top: 30px;
@@ -354,6 +362,7 @@
             padding: 13px 0 10px 0; // mobile
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
 
             @include mq($from: desktop) {
                 padding-bottom: 20px;
@@ -376,13 +385,17 @@
             @extend .text-b-3;
             display: flex;
             align-items: center;
-            padding-top: 8px;
+            padding-top: 0;
             margin-top: 0;
-            margin-bottom: 0;
+            margin-bottom: 10px;
 
             .icon {
-                font-size: 20px;
+                width: 21px;
+                height: 20px;
                 margin-right: 10px;
+                &:before {
+                    font-size: 20px;
+                }
             }
         }
         .bt-show-map {
