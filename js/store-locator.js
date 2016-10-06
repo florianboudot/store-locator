@@ -101,13 +101,13 @@ var mStoreLocator = (function () {
             //Bug #53268 add condition to redirect or just setView: HTML must be changed
             if (isMapPage) {
                 map.setView({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    },
-                    ZOOM_LOCATE_ME, {
-                        animate: true
-                    });
-                goToPanel(2);
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                },
+                ZOOM_LOCATE_ME, {
+                    animate: true
+                });
+                handleListLayout();
             }
             else {
                 let $form = $btn.parents('form:first');
@@ -507,11 +507,9 @@ var mStoreLocator = (function () {
 
         // button more (en savoir +)
         var path = data.path == 0 ? '' : data.path;
-        var contact_url = data.contact == undefined && data.contact == 0 ? '' : data.contact;
         var has_content = data.hascontent != undefined ? data.hascontent : '';
         opt.more = is_showroom_or_agence && type == "0" && path != '' && has_content != '' ? `<a href="${path}" class="bt-more btn btn-medium decli-reverse">En savoir +</a>` : '';
 
-        opt.contact = is_showroom_or_agence ? `<a href="${contact_url}" class="bt-contact btn btn-legrand">Contacter</a>` : '';
         opt.visual = data.visual != undefined && data.visual != 0 ? data.visual : '';
         opt.show_map = '<span class="bt-show-map js-toggle-list-map"><i class="icon-localisation-empty-thin icon"></i>Afficher la carte</span>';
         opt.dept = is_showroom_or_agence && type == "1" && data.dept != undefined && data.dept.length > 0 ? '<span class="dept">Départements : ' + data.dept.join(' - ') + '</span>' : '';
