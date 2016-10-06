@@ -1,6 +1,6 @@
 var getTpl = require("./libs/get-tpl").default;
 var device = require("./libs/device").getDevice;
-var ajax = require("./libs/ajax").default; //
+var ajax = require("./libs/ajax").default;
 
 var mStoreLocator = (function () {
     // SETTINGS
@@ -374,9 +374,8 @@ var mStoreLocator = (function () {
         active_marker = null;
 
         var stores_in_view = getMarkersInView();
-
-
         var is_results = stores_in_view.length > 0;
+
         if (is_results) {
             if (pm.debug)console.log('buildListFromMarkersInView has results');
 
@@ -821,7 +820,7 @@ var mStoreLocator = (function () {
                     let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
 
                     // first init
-                    DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout({action: 'move'});
+                    DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
                 });
         }
         if ($geocoder_divs.length > 0) {

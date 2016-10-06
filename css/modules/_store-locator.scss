@@ -30,7 +30,7 @@
     flex-wrap: wrap;
     flex-direction: column;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 0;
     @extend .gutter-left;
 
     @include mq($from: desktop) {
@@ -101,6 +101,7 @@
     @include mq($until: desktop) {
         position: absolute;
         left: -9999px;
+        min-height: 260px;
         height: calc(100vh - 300px);
 
         &.mobile-show-map {
