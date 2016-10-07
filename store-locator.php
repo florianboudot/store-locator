@@ -16,7 +16,6 @@
             <div class="section-content">
                 <?php
                 $json_url = 'json/stores.json';
-                $search_what = "distributeur";
                 include('inc/modules/module-store-locator.php');
                 ?>
             </div>

@@ -1,7 +1,6 @@
 <?php $json_url = isset($json_url) ? $json_url : ''; ?>
 <?php $lat = isset($_GET['lat']) ? $_GET['lat'] : ''; ?>
 <?php $lng = isset($_GET['lng']) ? $_GET['lng'] : ''; ?>
-<?php $search_what = isset($search_what) ? $search_what : 'store'; ?>
 <?php $page = isset($page) ? $page : ''; ?>
 
 
@@ -24,7 +23,6 @@
                         Autour de moi
                     </h1>
                     <button type="button" class="btn btn-main btn-locate-me js-locate-me">
-                        <i class="icon icon-target thin-icon"></i>
                         me localiser
                     </button>
                 </div>
@@ -33,20 +31,17 @@
             <div class="panel panel-2">
                 <!-- STORES LIST -->
                 <div class="gutter-left list-title">
-                    <?php if($page != 'showrooms'){ ?>
-                        <h1 class="txt-title-l-2 txt-title-dashed">
-                            Vos <?php echo $search_what; ?>s près de
-                            <span class="city-nearby">
-                                &lt;VILLE&gt;
-                            </span>
-                            <span class="list-count color-orange">
-                                (x)
-                            </span>
-                        </h1>
-                    <?php } ?>
+                    <h1 class="txt-title-l-2 txt-title-dashed">
+                        Stores close to
+                        <span class="city-nearby">
+                            &lt;VILLE&gt;
+                        </span>
+                        <span class="list-count color-orange">
+                            (x)
+                        </span>
+                    </h1>
                     <div class="buttons">
                         <button type="button" class="btn btn-medium decli-reverse btn-locate-me js-locate-me">
-                            <i class="icon icon-target"></i>
                             me localiser
                         </button>
                         <button type="button" class="btn btn-medium decli-reverse btn-back js-display-panel" data-display-panel="1">

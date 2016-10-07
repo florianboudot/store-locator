@@ -540,12 +540,6 @@ var mStoreLocator = (function () {
             }
             handleListLayout();
         }
-
-        if (map.getZoom() > ZOOM_DEFAULT) {
-            map.setView(coords, ZOOM_DEFAULT, {
-                animate: true
-            });
-        }
     };
 
     var onMapMoveEnd = function () {

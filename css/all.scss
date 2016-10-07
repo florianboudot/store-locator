@@ -12,7 +12,5 @@ $mq-responsive: true;
 @import 'vendors/all-vendors'; // framework, OOCSS and more
 @import 'base/all-base';
 @import 'layout/all-layout'; // layout breaking points
-//@import 'form/all-form';
 @import 'sections/all-sections';
 @import "modules/store-locator";
-@import 'icons/style';

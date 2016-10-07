@@ -117,10 +117,6 @@
         flex: none;
         padding: 20px 0;
         overflow: inherit;
-
-        .page-showrooms & {
-            padding: 0;
-        }
     }
 }
 
@@ -143,20 +139,7 @@
         transition: none;
     }
 
-    .page-showrooms & .list-title .btn-back,
-    .page-showrooms & .list-title .btn-locate-me {
-        display: none !important;
-    }
-
-
-    @include mq($from: desktop) {
-        .page-showrooms & .list-title {
-            display: none;
-        }
-    }
-
-    &.display-panel-2,
-    .page-showrooms &  { // show results only
+    &.display-panel-2  { // show results only
         transform: translateX(-50%);
 
         @include mq($until: desktop) {
@@ -229,10 +212,6 @@
     margin-top: 30px;
     border-top: 1px solid $color-border-block;
 
-    .page-showrooms &{
-        margin-top: 0;
-    }
-
     @include mq($until: desktop) {
         max-height: 0;
         transition: max-height 0.15s ease-out;
@@ -244,10 +223,6 @@
             transition: max-height 0.25s ease-in;
             margin-top: 30px;
             border-top: 1px solid $color-border-block;
-        }
-        .page-showrooms &,
-        .page-showrooms &.active {
-            margin-top: 0;
         }
     }
     .item {
