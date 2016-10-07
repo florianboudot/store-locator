@@ -43,11 +43,11 @@
     }
 
     &.group-0 .inside { // showrooms
-        border-color: rgba($colorShowrooms, 0.6);
+        border-color: rgba($color-red, 0.6);
     }
 
     &.group-1 .inside { // agences
-        border-color: rgba($colorAgences, 0.6);
+        border-color: rgba($color-blue, 0.6);
     }
 }
 .marker-cluster {

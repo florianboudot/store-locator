@@ -64,9 +64,6 @@
 
                 <!-- template : list item -->
                 <script type="text/template" id="tpl-list-item">
-                    <div class="logo">
-                        <img src="http://dummyimage.com/100x30" alt="{{title}}">
-                    </div>
                     <div class="infos">
                         <span class="txt title">
                             {{title}}
@@ -77,19 +74,6 @@
                         <span class="txt city">
                             {{zip}} {{city}}
                         </span>
-
-                        <div class="more-infos">
-                            {{tel}}
-                            {{fax}}
-                            {{web}}
-                            {{dept}}
-                            <div class="actions">
-                                {{itinerary}}
-                                {{more}}
-                                {{contact}}
-                                {{show_map}}
-                            </div>
-                        </div>
                     </div>
                 </script>
 
@@ -113,6 +97,7 @@
             </span>
         </div>
     </script>
+
     <!-- MAP -->
     <div id="map" data-json-url="<?php echo $json_url; ?>" data-coord-lat="<?php echo $lat; ?>" data-coord-lng="<?php echo $lng; ?>"></div>
 </div>

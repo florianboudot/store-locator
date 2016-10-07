@@ -1,15 +1,3 @@
-.main-head { // page showroom only
-    display: flex;
-    @extend .border-t;
-    flex-direction: column;
-
-    @include mq($from: desktop) {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-}
-
 .btn-see-card,
 .btn-see-list {
     display: inline-block;
@@ -31,7 +19,6 @@
     flex-direction: column;
     padding-top: 20px;
     padding-bottom: 0;
-    @extend .gutter-left;
 
     @include mq($from: desktop) {
         flex-direction: row;
@@ -58,20 +45,20 @@
             color: white;
         }
         &.filter-agences {
-            color: $colorAgences;
-            border-color: $colorAgences;
+            color: $color-blue;
+            border-color: $color-blue;
 
             &:hover, &.active {
-                background-color: $colorAgences;
+                background-color: $color-blue;
                 color: white;
             }
         }
         &.filter-showrooms {
-            color: $colorShowrooms;
-            border-color: $colorShowrooms;
+            color: $color-red;
+            border-color: $color-red;
 
             &:hover, &.active {
-                background-color: $colorShowrooms;
+                background-color: $color-red;
                 color: white;
             }
         }

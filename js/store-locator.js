@@ -10,7 +10,7 @@ var mStoreLocator = (function () {
     var $map = $('#' + map_id);
     var is_desktop = null;
     var json_url = $map.data('json-url');
-    var style_url = 'mapbox://styles/frontmodem/cinkehgzt0250d5m3t26y6q8u'; // account 'frontmodem'
+    var style_url = 'mapbox://styles/mapbox/streets-v9'; // account 'frontmodem'
     var init_coords = [$map.data('coord-lat'), $map.data('coord-lng')];
 
     var default_coords = [47.27177506640826, 2.724609375]; // france
@@ -257,27 +257,6 @@ var mStoreLocator = (function () {
             map.setView(marker.getLatLng(), ZOOM_LOCATE_ME, {animate: true});
         });
 
-        $(elt).on('open', function () {
-            // push tracking event
-            var type = marker.options.type;
-            if (type == undefined) {
-                type = /pro\//.test(document.location.pathname) ? 'distributeurs' : 'magasins';
-            }
-            else {
-                type = type == 'showroom' ? 'showrooms' : 'directions regionales';
-            }
-
-            var infos = {
-                'event': 'storeView', // storeView, storeItinerary
-                'eventCategory': 'storelocator',
-                'eventAction': `${type}::view`, // magasins|distributeurs|directions regionales|showrooms::view|itinerary
-                'eventLabel': `${marker.options.title}::${marker.options.acc_id}`,
-                'eventValue': `${marker.options.zip}::${marker.options.city}`
-            };
-            dataLayer && dataLayer.push(infos);
-        });
-
-
         $(elt).on('mouseenter', function () {
             clearTimeout(TIMEOUT);
             clearTimeout(TIMEOUT_ACTIVE_MARKER);
@@ -476,15 +455,10 @@ var mStoreLocator = (function () {
         var opt = {};
 
         opt.id = id;
-        opt.acc_id = data.acc_id;
         opt.lat = data.lat.toString().replace(',', '.'); // todo cleanup json instead
         opt.lng = data.lng.toString().replace(',', '.');
-        opt.tel = data.tel == "00 00 00 00 00" || data.tel == 0 ? '' : `<span class="txt tel">tél : ${data.tel}</span>`;
-        opt.fax = data.fax == "00 00 00 00 00" || data.fax == 0 ? '' : `<span class="txt fax">fax : ${data.fax}</span>`;
+
         opt.title = data.name;
-        opt.surname = data.surname;
-        opt.filter = filters && filters != undefined ? filters[0].values[data.filters[0]] : '';
-        opt.location = data.location;
         opt.zip = data.cp;
         opt.city = data.city;
 
@@ -492,31 +466,13 @@ var mStoreLocator = (function () {
         opt.address1 = address1_val != '' ? `<span class="txt address address1">${address1_val}</span>` : '';
         var address2_val = data.add_2 != 0 && data.add_1 != undefined ? data.add_2.toString() : '';
         opt.address2 = address2_val != '' ? `<span class="txt address address2">${address2_val}</span>` : '';
-        var direction = [address1_val, address2_val, opt.zip, opt.city].join(', ');
-        var itinerary_url = 'https://www.google.fr/maps/dir//' + direction;
 
         var type = data.place_type;  // "0" = showroom, "1" = agence
         var is_showroom_or_agence = type != undefined;
         var type_class = is_showroom_or_agence ? 'group-' + type : 'rien';  // "0" = showroom, "1" = agence
         opt.icon = html_icon(type_class);
-        opt.itinerary = is_showroom_or_agence ? '' : `<a href="${itinerary_url}" class="bt-itinerary" target="_blank"><i class="icon-directions icon"></i>Calcul de l'itinéraire</a>`;
 
-        // web site
-        var web_url = data.web == 0 ? '' : data.web;
-        opt.web = web_url == '' ? '' : `<a href="${web_url}" class="txt web" target="_blank">${web_url}</a>`;
-
-        // button more (en savoir +)
-        var path = data.path == 0 ? '' : data.path;
-        var has_content = data.hascontent != undefined ? data.hascontent : '';
-        opt.more = is_showroom_or_agence && type == "0" && path != '' && has_content != '' ? `<a href="${path}" class="bt-more btn btn-medium decli-reverse">En savoir +</a>` : '';
-
-        opt.visual = data.visual != undefined && data.visual != 0 ? data.visual : '';
-        opt.show_map = '<span class="bt-show-map js-toggle-list-map"><i class="icon-localisation-empty-thin icon"></i>Afficher la carte</span>';
-        opt.dept = is_showroom_or_agence && type == "1" && data.dept != undefined && data.dept.length > 0 ? '<span class="dept">Départements : ' + data.dept.join(' - ') + '</span>' : '';
         opt.type = type;
-
-        // todo cleanup properties, some are needed only in B2C or B2B or showroom, etc
-        //console.log('opt',opt);
 
         return opt;
     };
