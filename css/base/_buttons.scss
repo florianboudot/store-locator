@@ -30,10 +30,6 @@
     display: inline-flex;
     align-items: center;
     outline: none;
-
-    .icon {
-        margin-right: 10px;
-    }
 }
 button.btn:not(.btn-medium):not(.btn-main) {
     border: none;
@@ -98,12 +94,6 @@ button.btn:not(.btn-medium):not(.btn-main) {
         background: $color-orange;
         color: $color-white;
         border: 1px solid $color-orange;
-    }
-    .icon-end {
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        margin-top: -10px;
     }
     &.decli {
         border: 1px solid $color-orange;

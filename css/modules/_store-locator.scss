@@ -1,3 +1,6 @@
+.leaflet-pelias-expanded {
+    margin-bottom: 20px; //
+}
 .btn-see-card,
 .btn-see-list {
     display: inline-block;
@@ -237,17 +240,6 @@
         flex-direction: row;
         transition: background 200ms ease, padding-top 200ms ease;
 
-        &:after {
-            content: '';
-            width: 5px;
-            background: transparent;
-            transition: bottom 200ms ease, background 200ms ease;
-            position: absolute;
-            top: 0;
-            bottom: 100%;
-            left: 0;
-        }
-
         &:hover {
             background: $color-background-light;
         }
@@ -260,10 +252,6 @@
             background: $color-background-light;
             flex-direction: column;
 
-            &:after {
-                bottom: 0;
-                background: $color-orange;
-            }
         }
 
         .logo {
@@ -351,15 +339,6 @@
             padding-top: 0;
             margin-top: 0;
             margin-bottom: 10px;
-
-            .icon {
-                width: 21px;
-                height: 20px;
-                margin-right: 10px;
-                &:before {
-                    font-size: 20px;
-                }
-            }
         }
         .bt-show-map {
             @include mq($from: desktop) {

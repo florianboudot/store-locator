@@ -1,29 +1,24 @@
 <?php $json_url = isset($json_url) ? $json_url : ''; ?>
+
 <?php $lat = isset($_GET['lat']) ? $_GET['lat'] : ''; ?>
 <?php $lng = isset($_GET['lng']) ? $_GET['lng'] : ''; ?>
-<?php $page = isset($page) ? $page : ''; ?>
 
 
 
-<div id="store-locator-container" class="page-<?php echo $page; ?>">
-    <div id="sidebar" class="<?php echo ($page == 'showrooms') ? 'active' : ''; ?>">
+<div id="store-locator-container">
+    <div id="sidebar">
         <div id="panel-container">
             <div class="panel panel-1">
                 <!-- GEOCODER SEARCH -->
                 <div class="locator-block-title find-store">
                     <h1 class="txt-title-l-2 txt-title-dashed">
-                        Rechercher
+                        Search
                     </h1>
                     <div class="js-geocoder-search form-item" data-input-placeholder="Saisissez une ville, un CP..."></div>
-                </div>
 
-                <!-- LOCATE ME -->
-                <div class="locator-block-title locate-me">
-                    <h1 class="txt-title-l-2 txt-title-dashed">
-                        Autour de moi
-                    </h1>
+
                     <button type="button" class="btn btn-main btn-locate-me js-locate-me">
-                        me localiser
+                        locate me
                     </button>
                 </div>
             </div>
@@ -34,7 +29,7 @@
                     <h1 class="txt-title-l-2 txt-title-dashed">
                         Stores close to
                         <span class="city-nearby">
-                            &lt;VILLE&gt;
+                            &lt;CITY&gt;
                         </span>
                         <span class="list-count color-orange">
                             (x)
@@ -42,17 +37,17 @@
                     </h1>
                     <div class="buttons">
                         <button type="button" class="btn btn-medium decli-reverse btn-locate-me js-locate-me">
-                            me localiser
+                            locate me
                         </button>
                         <button type="button" class="btn btn-medium decli-reverse btn-back js-display-panel" data-display-panel="1">
-                            effacer
+                            clear
                         </button>
 
-                        <button type="button" class="btn btn-medium decli-reverse btn-see-list js-toggle-list-map <?php echo $page == 'showrooms' ? 'hidden' : ''; ?>" data-type="list">
-                            voir la liste
+                        <button type="button" class="btn btn-medium decli-reverse btn-see-list js-toggle-list-map" data-type="list">
+                            show list
                         </button>
-                        <button type="button" class="btn btn-medium decli-reverse btn-see-card js-toggle-list-map <?php echo $page == 'showrooms' ? '' : 'hidden'; ?>" data-type="map">
-                            voir la carte
+                        <button type="button" class="btn btn-medium decli-reverse btn-see-card js-toggle-list-map" data-type="map">
+                            show map
                         </button>
                     </div>
                 </div>
@@ -72,7 +67,7 @@
                     </div>
                 </script>
 
-                <div id="stores-list" class="<?php echo ($page == 'showrooms') ? 'active' : ''; ?>">
+                <div id="stores-list">
                     <!-- tpl -->
                 </div>
             </div>

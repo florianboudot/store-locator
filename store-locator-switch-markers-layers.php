@@ -28,8 +28,6 @@
                 <!-- MAP + SIDEBAR -->
                 <?php
                 $json_url = "json/agences-et-showrooms.json";
-                $search_title = "Rechercher";
-                $page = "showrooms";
                 include('inc/modules/module-store-locator.php');
                 ?>
             </div>

@@ -105,8 +105,6 @@ img.leaflet-pelias-layer-icon {
 }
 
 .leaflet-pelias-layer-icon-point {
-    @extend .icon-immovable;
-    @extend .icon-font;
     color: $color-text-grey;
     //background-image: url('../img/point_icon.png');
 }

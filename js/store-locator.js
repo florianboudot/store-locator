@@ -38,7 +38,6 @@ var mStoreLocator = (function () {
 
     // vars
     var $list_count = $('.list-count');
-    var is_page_showrooms = $store_container.hasClass('page-showrooms');
     var my_geocoder = []; // geocoder fields
     var first_result = []; // array of objects
     var geomarker;
@@ -49,7 +48,7 @@ var mStoreLocator = (function () {
     var ZOOM_LOCATE_ME = 13;
     var ZOOM_DEFAULT = is_init_coords ? ZOOM_LOCATE_ME : 5;
     var ZOOM_TO_BUILD_LIST = 10;
-    var ZOOM_DISABLE_CLUSTERS = is_page_showrooms ? ZOOM_DEFAULT : ZOOM_TO_BUILD_LIST;
+    var ZOOM_DISABLE_CLUSTERS = ZOOM_TO_BUILD_LIST;
 
     // custom icon
     var html_icon = function (c) {
@@ -389,7 +388,7 @@ var mStoreLocator = (function () {
         if (!list_container) {
             return;
         }
-        if (map.getZoom() >= ZOOM_TO_BUILD_LIST || is_page_showrooms) {
+        if (map.getZoom() >= ZOOM_TO_BUILD_LIST) {
             buildListFromMarkersInView(param);
         }
         else if (is_desktop) {
@@ -651,12 +650,10 @@ var mStoreLocator = (function () {
         var $input = $(input);
         if (is_form) {
             $form.on('submit', function (e) {
-                if ($map.length > 0 && !is_page_showrooms) {
-                    $('#header .JS_menu_trigger').trigger('close.menu');
+                if ($map.length > 0) {
                     e.preventDefault();
                     resetGeoFields();
                     clearMarker();
-
                 }
 
                 if (first_result[i]) {
@@ -739,7 +736,7 @@ var mStoreLocator = (function () {
             // map style
             L.mapbox.styleLayer(style_url).addTo(map);
 
-            // on map move end
+            // init map position
             map.setView(coords, ZOOM_DEFAULT);
 
             $list_container.on('mouseenter', unbindMapMove).on('mouseleave', bindMapMove);
