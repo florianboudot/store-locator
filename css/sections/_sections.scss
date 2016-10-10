@@ -111,12 +111,6 @@
             .nav-bar {
                 width: 253px;
             }
-            &.over-top {
-                &:before {
-                    background: $color-white;
-                    z-index: 5;
-                }
-            }
         }
 
         .block-content {

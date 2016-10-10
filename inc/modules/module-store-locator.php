@@ -16,9 +16,12 @@
                     </h1>
                     <div class="js-geocoder-search form-item" data-input-placeholder="Saisissez une ville, un CP..."></div>
 
-
-                    <button type="button" class="btn btn-main btn-locate-me js-locate-me">
+                    <button type="button" class="btn btn-medium js-locate-me">
                         locate me
+                    </button>
+
+                    <button type="button" class="btn btn-medium decli-reverse btn-back js-display-panel" data-display-panel="1">
+                        clear
                     </button>
                 </div>
             </div>
@@ -36,12 +39,6 @@
                         </span>
                     </h1>
                     <div class="buttons">
-                        <button type="button" class="btn btn-medium decli-reverse btn-locate-me js-locate-me">
-                            locate me
-                        </button>
-                        <button type="button" class="btn btn-medium decli-reverse btn-back js-display-panel" data-display-panel="1">
-                            clear
-                        </button>
 
                         <button type="button" class="btn btn-medium decli-reverse btn-see-list js-toggle-list-map" data-type="list">
                             show list
