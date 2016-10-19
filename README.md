@@ -10,4 +10,5 @@ Store locator
 Open-source projects used :
 * geocoder by [mapzen search](https://mapzen.com/documentation/search/)
 * [mapbox.com](http://mapbox.com)
+* getTpl : https://github.com/romuleald/getTpl
 

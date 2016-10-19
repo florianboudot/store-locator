@@ -27,7 +27,7 @@
 
                 <!-- MAP + SIDEBAR -->
                 <?php
-                $json_url = "json/agences-et-showrooms.json";
+                $json_url = "json/stores.json";
                 include('inc/modules/module-store-locator.php');
                 ?>
             </div>

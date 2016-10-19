@@ -8,7 +8,6 @@ var mStoreLocator = (function () {
     var map_id = 'map';
     var isMapPage = false;
     var $map = $('#' + map_id);
-    var is_desktop = null;
     var json_url = $map.data('json-url');
     var style_url = 'mapbox://styles/mapbox/streets-v9'; // account 'frontmodem'
     var init_coords = [$map.data('coord-lat'), $map.data('coord-lng')];
@@ -30,11 +29,9 @@ var mStoreLocator = (function () {
     var list_container = document.getElementById('stores-list');
     var $list_container = $(list_container);
     var $geocoder_divs = $('.js-geocoder-search');
-    var $panel_container = $('#panel-container');
     var $sidebar = $('#sidebar');
     var $btn_locate_me = $('.js-locate-me');
     var $city = $('.city-nearby');
-    var $store_container = $('#store-locator-container');
 
     // vars
     var $list_count = $('.list-count');
@@ -145,41 +142,6 @@ var mStoreLocator = (function () {
                 L.DomUtil.addClass(my_geocoder[i]._reset, 'leaflet-pelias-hidden');
             }
         }
-    };
-
-    /**
-     * goToPanel (sidebar)
-     * @param panel_num
-     * usage : <button class="js-display-panel" data-display-panel="1"></button>
-     */
-    var goToPanel = function (panel_num) {
-        if (pm.debug)console.trace('goToPanel', panel_num, this);
-        let $button_clicked;
-
-        if (typeof panel_num != "number") {
-            $button_clicked = $(this);
-            panel_num = $button_clicked.data('display-panel'); // button "effacer"
-        }
-
-        if (panel_num == 1) {
-            if ($button_clicked) {
-                clearMarker();
-            }
-            if (!is_desktop) {
-                toggleMobileListMap('list');  // on mobile, go to panel 1 remove map #52679
-            }
-        }
-        else if (panel_num == 2) {
-            toggleMobileListMap(status.markers_in_view > 0 ? 'list' : 'map');
-
-            $('body').animate({scrollTop: 0}, 500);
-        }
-
-        // show panel
-        $panel_container.attr('class', 'display-panel-' + panel_num);
-
-        // reset geocoder field
-        resetGeoFields();
     };
 
 
@@ -343,7 +305,7 @@ var mStoreLocator = (function () {
      * @param {Object} params
      */
     var buildListFromMarkersInView = function (params = {}) {
-        if (pm.debug)console.trace('buildListFromMarkersInView', params, is_desktop);
+        if (pm.debug)console.trace('buildListFromMarkersInView', params);
 
         var action = params.action || null;
 
@@ -356,10 +318,6 @@ var mStoreLocator = (function () {
 
         if (is_results) {
             if (pm.debug)console.log('buildListFromMarkersInView has results');
-
-            if (is_desktop && action === 'move' || !is_desktop && action !== 'move') {
-                goToPanel(2);
-            }
 
             // sort items
             stores_in_view.sort(function (a, b) {
@@ -374,7 +332,6 @@ var mStoreLocator = (function () {
         else {
             if (pm.debug)console.log('buildListFromMarkersInView has no results');
 
-            is_desktop ? goToPanel(1) : goToPanel(2);
             getMainCity();
         }
 
@@ -391,9 +348,8 @@ var mStoreLocator = (function () {
         if (map.getZoom() >= ZOOM_TO_BUILD_LIST) {
             buildListFromMarkersInView(param);
         }
-        else if (is_desktop) {
+        else {
             list_container.innerHTML = 'aucun résultat';
-            goToPanel(1);
         }
     };
 
@@ -480,9 +436,8 @@ var mStoreLocator = (function () {
     // add all markers in layer (only once)
     var addMarkers = function (d) {
         if (pm.debug)console.log('addMarkers');
-        var is_chantiers_clients = d[0].items !== undefined; // page je m'inspire
         var data = d[0].items ? d[0].items : d;
-        filters = is_chantiers_clients ? d[0].index.filters : null;
+        filters = null;
 
         for (var i = 0, data_length = data.length; i < data_length; i++) {
             // create marker
@@ -490,7 +445,7 @@ var mStoreLocator = (function () {
             var marker = L.marker(L.latLng(mk_options.lat, mk_options.lng), mk_options);
 
             // bind popup content
-            var popup_content = getTpl(mk_options, is_chantiers_clients ? 'marker-chantiers-clients-popup-content' : 'marker-popup-content');
+            var popup_content = getTpl(mk_options, 'marker-popup-content');
             marker.bindPopup(popup_content);
 
             // bind click on marker
@@ -606,9 +561,8 @@ var mStoreLocator = (function () {
         //if we already are on the storeloc page
         if (list_container) {
             // zoom to selected result
-            map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: is_desktop});
+            map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: true});
             buildListFromMarkersInView();
-            goToPanel(2);
         }
     };
 
@@ -719,7 +673,6 @@ var mStoreLocator = (function () {
      * init
      */
     var init = function () {
-        is_desktop = /d/.test(device());
         if (document.querySelector('#' + map_id)) {
             isMapPage = true;
 
@@ -750,9 +703,6 @@ var mStoreLocator = (function () {
             }, false)
                 .done(addMarkers)
                 .then(function () {
-                    // bind buttons display panel
-                    $body.on('click', '.js-display-panel', goToPanel);
-
                     // bind buttons (page agences et showrooms)
                     $filters.on('click', switchMarkers);
 

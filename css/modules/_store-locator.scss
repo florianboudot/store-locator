@@ -1,17 +1,6 @@
+// geocoder field
 .leaflet-pelias-expanded {
-    margin-bottom: 20px; //
-}
-.btn-see-card,
-.btn-see-list {
-    display: inline-block;
-
-    &.hidden {
-        display: none;
-    }
-
-    @include mq($from: desktop) {
-        display: none;
-    }
+    margin-bottom: 20px;
 }
 
 // only on page showrooms
@@ -19,26 +8,15 @@
     text-align: center;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
-    padding-top: 20px;
-    padding-bottom: 0;
-
-    @include mq($from: desktop) {
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-    }
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
 
     .bt-filter {
-        margin-right: 40px;
         cursor: pointer;
-        margin-bottom: 10px;
-
-        @include mq($from: desktop) {
-            margin-bottom: 0;
-            margin-right: 10px;
-        }
+        margin-bottom: 0;
+        margin-right: 10px;
         &.active:not(.filter-all) {
             cursor: auto;
         }
@@ -70,42 +48,17 @@
 
 #store-locator-container {
     display: flex;
-
-    @include mq($from: desktop) {
-        height: 570px;
-    }
-    @include mq($until: desktop) {
-        flex-direction: column;
-    }
-}
-
-.map-container {
-    position: relative;
+    height: 570px;
 }
 
 #map {
     position: relative;
     width: 100%;
     background: rgba(195, 224, 224, 0.88); // #c3e0e0
-
-    @include mq($until: desktop) {
-        position: absolute;
-        left: -9999px;
-        min-height: 260px;
-        height: calc(100vh - 300px);
-
-        &.mobile-show-map {
-            position: relative;
-            left: auto;
-        }
-    }
 }
 
 .gutter-left {
     padding-left: 55px;
-    @include mq($until: tablet) {
-        padding-left: 40px;
-    }
 }
 
 #sidebar {
@@ -114,80 +67,36 @@
     background: white;
     overflow: hidden;
     position: relative;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
 
-    @include mq($until: desktop) {
-        width: 100%;
-        flex: none;
-        padding: 20px 0;
-        overflow: inherit;
-    }
-}
+    .buttons {
+        @include mq($until: desktop) {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-wrap: wrap;
 
-#panel-container {
-
-    @include mq($until: desktop) {
-        position: relative;
-        width: 100%;
-        display: block;
-        transition: none;
-    }
-
-
-
-    .panel {
-        flex: 0 0 50%;
-        display: flex;
-        flex-direction: column;
-
-        .buttons {
-            @include mq($until: desktop) {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                flex-wrap: wrap;
-
-                .btn {
-                    padding-right: 2px;
-                    padding-left: 2px;
-                    /*flex-basis: calc(50% - 5px);*/
-                }
-                .btn-locate-me {
-                    /*flex-basis: 100%;*/
-                    display: inline-block;
-
-                }
-            }
-        }
-    }
-
-    .panel-2 {
-        .btn {
-            margin-bottom: 10px;
-        }
-        .gutter-left {
-            margin-right: 40px;
-        }
-        @include mq($from: desktop) {
             .btn {
-                margin-bottom: 0;
+                padding-right: 2px;
+                padding-left: 2px;
+                /*flex-basis: calc(50% - 5px);*/
+            }
+            .btn-locate-me {
+                /*flex-basis: 100%;*/
+                display: inline-block;
+
             }
         }
     }
 
-    @include mq($until: desktop) {
-        &.display-panel-2 {
-            .panel-1 {
-                display: none;
-            }
-            .panel-2 {
-                display: block;
-            }
-        }
-    }
 }
+
 .city-nearby {
     text-transform: uppercase;
 }
+
 #stores-list {
     overflow: auto;
     margin-top: 30px;
