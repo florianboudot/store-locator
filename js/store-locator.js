@@ -1,6 +1,4 @@
 var getTpl = require("./libs/get-tpl").default;
-var device = require("./libs/device").getDevice;
-var ajax = require("./libs/ajax").default;
 
 var mStoreLocator = (function () {
     // SETTINGS
@@ -696,27 +694,27 @@ var mStoreLocator = (function () {
             bindMapMove();
 
             // load json
-            ajax({
+            $.ajax({
                 url: json_url,
                 dataType: "json",
                 error: handleAjaxError
             }, false)
-                .done(addMarkers)
-                .then(function () {
-                    // bind buttons (page agences et showrooms)
-                    $filters.on('click', switchMarkers);
+            .done(addMarkers)
+            .then(function () {
+                // bind buttons (page agences et showrooms)
+                $filters.on('click', switchMarkers);
 
-                    map.on('click', clearActiveMarker);
+                map.on('click', clearActiveMarker);
 
-                    // toggle list map
-                    $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
+                // toggle list map
+                $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
 
-                    // page showrooms and agences (or DR:directions regionales)
-                    let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
+                // page showrooms and agences (or DR:directions regionales)
+                let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
 
-                    // first init
-                    DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
-                });
+                // first init
+                DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
+            });
         }
         if ($geocoder_divs.length > 0) {
             map = map || L.mapbox.map('map-fake').setView(coords, ZOOM_DEFAULT);
