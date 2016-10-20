@@ -26,9 +26,6 @@
     </div>
 
 
-    <!-- coords from url -->
-    <?php $lat = isset($_GET['lat']) ? $_GET['lat'] : ''; ?>
-    <?php $lng = isset($_GET['lng']) ? $_GET['lng'] : ''; ?>
 
     <!-- MAP + SIDEBAR -->
     <div id="store-locator-container">
@@ -86,8 +83,8 @@
         <!-- THE MAP -->
         <div id="map"
              data-json-url="json/stores.json"
-             data-coord-lat="<?php echo $lat; ?>"
-             data-coord-lng="<?php echo $lng; ?>">
+             data-coord-lat=""
+             data-coord-lng="">
         </div>
 
         <!-- TEMPLATE : POPUP MARKER -->
