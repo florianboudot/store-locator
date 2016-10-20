@@ -2,15 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Store locator demo</title>
-    <link rel="stylesheet" href="styles/all.css">
+    <title>
+        Store locator demo | Florian Boudot
+    </title>
+    <link rel="stylesheet" href="compiled-styles/all.css">
 </head>
 <body>
 
 <div class="main-container">
-
-    <!-- STORE LOCATOR -->
-
 
     <!-- FILTER MARKERS -->
     <div class="filter-markers">
@@ -24,7 +23,6 @@
             Red Markers
         </p>
     </div>
-
 
 
     <!-- MAP + SIDEBAR -->
@@ -51,27 +49,27 @@
             <div class="gutter-left list-title">
                 <h1 class="txt-title-l-2 txt-title-dashed">
                     Stores close to
-                                <span class="city-nearby">
-                                    &lt;CITY&gt;
-                                </span>
-                                <span class="list-count">
-                                    (x)
-                                </span>
+                    <span class="city-nearby">
+                        &lt;CITY&gt;
+                    </span>
+                    <span class="list-count">
+                        (x)
+                    </span>
                 </h1>
             </div>
 
             <!-- template : list item -->
             <script type="text/template" id="tpl-list-item">
                 <div class="infos">
-                                <span class="txt title">
-                                    {{title}}
-                                    {{distance}}
-                                </span>
+                    <span class="txt title">
+                        {{title}}
+                        {{distance}}
+                    </span>
                     {{address1}}
                     {{address2}}
-                                <span class="txt city">
-                                    {{zip}} {{city}}
-                                </span>
+                    <span class="txt city">
+                        {{zip}} {{city}}
+                    </span>
                 </div>
             </script>
 
@@ -95,9 +93,9 @@
                 </p>
                 {{address1}}
                 {{address2}}
-                            <span class="txt city">
-                                {{zip}} {{city}}
-                            </span>
+                <span class="txt city">
+                    {{zip}} {{city}}
+                </span>
             </div>
         </script>
     </div>
@@ -114,6 +112,6 @@
 <script type="text/javascript" src="js/vendors/leaflet.markercluster-src.js"></script>
 
 <!-- + compiled -->
-<script type="text/javascript" src="scripts/bundle.js"></script>
+<script type="text/javascript" src="compiled-scripts/bundle.js"></script>
 </body>
 </html>
