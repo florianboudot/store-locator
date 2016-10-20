@@ -57,32 +57,7 @@ var mStoreLocator = (function () {
     var current_group = 'all'; // default
     var map = null; // map obj
 
-    /**
-     * handle ajax error
-     * @param jqXHR
-     * @param exception
-     */
-    var handleAjaxError = function (jqXHR, exception) {
-        var msg = '';
-        if (jqXHR.status === 0) {
-            msg = 'Not connect.\n Verify Network.';
-        } else if (jqXHR.status == 404) {
-            msg = 'json not found. [404]';
-        } else if (jqXHR.status == 500) {
-            msg = 'Internal Server Error [500].';
-        } else if (exception === 'parsererror') {
-            msg = 'Requested JSON parse failed.';
-        } else if (exception === 'timeout') {
-            msg = 'Time out error.';
-        } else if (exception === 'abort') {
-            msg = 'Ajax request aborted.';
-        } else {
-            msg = 'Uncaught Error.\n' + jqXHR.responseText;
-        }
-        alert(msg);
-    };
-
-
+    // geolocation error callback
     var errorCallback = function (error) {
         if (pm.debug)console.error('error', error);
     };
@@ -696,8 +671,7 @@ var mStoreLocator = (function () {
             // load json
             $.ajax({
                 url: json_url,
-                dataType: "json",
-                error: handleAjaxError
+                dataType: "json"
             }, false)
             .done(addMarkers)
             .then(function () {
