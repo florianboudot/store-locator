@@ -4,7 +4,7 @@ Store locator
 # demo
 https://kazes.github.io/storelocator/
 
-![storelocator](https://raw.githubusercontent.com/kazes/storelocator/master/screenshot/storelocator.png)
+![storelocator](https://github.com/kazes/storelocator/raw/master/screenshot/storelocator.png)
 
 # commands
 1. `npm install`
