@@ -63,38 +63,21 @@ var mStoreLocator = (function () {
     };
 
     // map to my position
-    var geolocateMe = function (e) {
-        let $btn = $(this);
+    var geolocateMe = function () {
 
         var successCallback = function (position) {
-            //Bug #53268 add condition to redirect or just setView: HTML must be changed
-            if (isMapPage) {
-                map.setView({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                },
-                ZOOM_LOCATE_ME, {
-                    animate: true
-                });
-                handleListLayout();
-            }
-            else {
-                let $form = $btn.parents('form:first');
-                if ($form.length) {
-                    $form.find('#lat').val(position.coords.latitude);
-                    $form.find('#lng').val(position.coords.longitude);
-                    $form.trigger('submit')
-                }
-                else {
-                    console.error('No form found to geolocate');
-                }
+            map.setView({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }, ZOOM_LOCATE_ME, {
+                animate: true
+            });
 
-            }
+            handleListLayout();
         };
 
+        // get position
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-        $('.JS_toggler[data-toggler-group="header"]').trigger('close');
-        e.preventDefault();
     };
 
     var clearMarker = function () {
