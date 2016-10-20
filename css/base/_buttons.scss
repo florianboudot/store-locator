@@ -14,7 +14,8 @@
     transition: all 0.3s ease 0;
     letter-spacing: 0.1em;
 
-    input, button {
+    input,
+    button {
         background: none;
         border: none;
         color: inherit;
@@ -26,138 +27,34 @@
         letter-spacing: 0.1em;
     }
 }
-.btn-locate-me {
-    display: inline-flex;
-    align-items: center;
-    outline: none;
-}
 button.btn:not(.btn-medium):not(.btn-main) {
     border: none;
     line-height: inherit;
 }
-.btn-main {
-    color: $color-black;
-    font-size: pxtoem(13);
-    padding: 14px 40px;
-    border: 1px solid $color-line-title;
 
-    &:hover {
-        background: $color-orange;
-        color: $color-white;
-        border: 1px solid $color-orange;
-    }
-
-}
-
-.btn-main-bg-orange {
-    font-size: pxtoem(13);
-    padding: 14px 40px;
-    background: $color-orange;
-    border: none;
-    color: $color-white;
-    &:hover {
-        background: $color-black;
-        color: $color-white;
-    }
-}
-
-.btn-main-decli {
-    color: $color-white;
-    border: 1px solid $color-white;
-
-    &:hover {
-        background: $color-white;
-        color: $color-black;
-        border: 1px solid $color-white;
-    }
-}
-
-.btn-main-reverse {
-    color: $color-black;
-    border: 1px solid $color-white;
-    background: $color-white;
-    &:hover {
-        background: $color-black;
-        color: $color-white;
-        border: 1px solid $color-black;
-    }
-}
 
 .btn-medium {
-    color: $color-black;
-    font-size: pxtoem(12);
+    color: #000;
+    font-size: 12px;
     padding: 5px 25px;
-    border: 1px solid $color-line-title;
+    border: 1px solid #000;
     position: relative;
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
         background: $color-orange;
-        color: $color-white;
+        color: #fff;
         border: 1px solid $color-orange;
     }
-    &.decli {
-        border: 1px solid $color-orange;
-        &:hover {
-            background: $color-black;
-            color: $color-white;
-            border: 1px solid $color-black;
-        }
-    }
+
     &.decli-reverse {
         &:hover {
-            background: $color-black;
-            color: $color-white;
-            border: 1px solid $color-black;
+            background: #000;
+            color: #fff;
+            border: 1px solid #000;
         }
     }
 }
 
-.btn-legrand {
-    color: $color-white;
-    background: $color-orange;
-    font-size: pxtoem(12);
-    padding: 5px 25px;
-    &:hover {
-        background: $color-black;
-        color: $color-white;
-    }
-}
-
-.btn-main-full {
-    color: $color-white;
-    font-size: pxtoem(13);
-    padding: 14px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-
-    &:hover {
-        background: $color-white;
-        color: $color-black;
-    }
-}
-
-.btn-main-full-reverse {
-    color: $color-black;
-    background: $color-white;
-    font-size: pxtoem(13);
-    padding: 14px 40px;
-
-    &:hover {
-        background: $color-black;
-        color: $color-white;
-    }
-}
-
-.btn-product-img-label {
-    color: $color-white;
-    background: $color-orange;
-    font-size: pxtoem(12);
-    padding: 5px 10px;
-    @include mq($until: mobile) {
-        padding: 5px;
-    }
-    text-transform: uppercase;
-    display: inline-block;
-
-}
 
 

@@ -6,11 +6,17 @@
 ----------------------------------------------------------------------------- */
 $mq-responsive: true;
 
-@import "config/_variables";
-@import 'utils/all-utils';
+$color-orange: #BC8952;
+$color-blue: #4078c0;
+$color-red: #BE2A2A;
+$color-border-block: #E0E0E0;
+$color-background-light: #F3F2F1;
+
 @import 'normalize'; // boilerplate
 @import 'vendors/all-vendors'; // framework, OOCSS and more
-@import 'base/all-base';
+
+@import "base/base";
+@import "base/typography";
+@import "base/buttons";
 @import 'layout/all-layout'; // layout breaking points
-@import 'sections/all-sections';
 @import "modules/store-locator";

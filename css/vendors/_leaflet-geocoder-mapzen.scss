@@ -7,7 +7,7 @@
     width: 100%;
     padding: 23px 0 23px 15px;
     font-size: 15px;
-    background: $color-background-light;
+    background: #F3F2F1;
     transition: all 0.2s ease-in-out;
     border: none;
 }
@@ -46,19 +46,17 @@
 }
 
 .leaflet-pelias-expanded {
-    width: 280px;
+    //width: 280px;
     height: 50px;
 
     .search-locate & {
         width: 100%;
-        height: $heightMenuDesktop;
+        height: 79px;
         display: inline-block;
         float: none;
     }
 
-    @include mq($until: tablet) {
-        width: 94%;
-    }
+    width: 94%;
 }
 
 .leaflet-pelias-expanded .leaflet-pelias-input {
@@ -105,7 +103,7 @@ img.leaflet-pelias-layer-icon {
 }
 
 .leaflet-pelias-layer-icon-point {
-    color: $color-text-grey;
+    color: grey;
     //background-image: url('../img/point_icon.png');
 }
 
@@ -216,8 +214,8 @@ img.leaflet-pelias-layer-icon {
     overflow: auto;
     display: none;
     border-radius: 0;
-    border-left: 1px solid $color-border-block;
-    border-right: 1px solid $color-border-block;
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
     border-top: 0;
     border-bottom: 0;
     max-height: inherit !important;
@@ -253,7 +251,7 @@ img.leaflet-pelias-layer-icon {
     font-size: 15px;
     padding: 8px 7px 9px 17px;
     background-color: white;
-    border-bottom: 1px solid $color-border-block;
+    border-bottom: 1px solid #E0E0E0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -265,14 +263,14 @@ img.leaflet-pelias-layer-icon {
 }
 
 .leaflet-pelias-results .leaflet-pelias-result:hover {
-    background-color: $color-background-light;
-    border-color: $color-background-light;
+    background-color: #F3F2F1;
+    border-color: #F3F2F1;
 }
 
 .leaflet-pelias-results .leaflet-pelias-result.leaflet-pelias-selected,
 .leaflet-pelias-results .leaflet-pelias-result.leaflet-pelias-selected:hover {
-    background-color: $color-border-block;
-    border-color: $color-border-block;
+    background-color: #E0E0E0;
+    border-color: #E0E0E0;
 }
 
 .leaflet-pelias-message {

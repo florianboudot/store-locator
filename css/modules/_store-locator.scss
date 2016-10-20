@@ -1,3 +1,12 @@
+.main-container {
+    width: 90%;
+    margin: auto;
+    max-width: 1280px;
+}
+
+.border-t {
+    border-top: 1px solid $color-border-block;
+}
 // geocoder field
 .leaflet-pelias-expanded {
     margin-bottom: 20px;
@@ -71,22 +80,20 @@
     flex-direction: column;
 
     .buttons {
-        @include mq($until: desktop) {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
-            .btn {
-                padding-right: 2px;
-                padding-left: 2px;
-                /*flex-basis: calc(50% - 5px);*/
-            }
-            .btn-locate-me {
-                /*flex-basis: 100%;*/
-                display: inline-block;
+        .btn {
+            padding-right: 2px;
+            padding-left: 2px;
+            /*flex-basis: calc(50% - 5px);*/
+        }
+        .btn-locate-me {
+            /*flex-basis: 100%;*/
+            display: inline-block;
 
-            }
         }
     }
 
@@ -95,25 +102,14 @@
 .city-nearby {
     text-transform: uppercase;
 }
-
+.list-count {
+    color: $color-orange;
+}
 #stores-list {
     overflow: auto;
     margin-top: 30px;
     border-top: 1px solid $color-border-block;
 
-    @include mq($until: desktop) {
-        max-height: 0;
-        transition: max-height 0.15s ease-out;
-        margin-top: 0;
-        border-top: none;
-        &.active {
-            max-height: calc(100vh - 300px);
-            min-height: 200px;
-            transition: max-height 0.25s ease-in;
-            margin-top: 30px;
-            border-top: 1px solid $color-border-block;
-        }
-    }
     .item {
         cursor: pointer;
         position: relative;
@@ -183,69 +179,7 @@
             display: inline-block;
             font-size: 11px;
         }
-        .more-infos {
-            line-height: 18px;
-            overflow: hidden;
-            transition: none;
-            max-height: 0;
-        }
-        &.active .more-infos,
-        &.always-open .more-infos {
-            transition: max-height 200ms ease;
-            padding: 20px 0 0 0;
-            max-height: 200px;
-        }
-        .actions {
-            padding: 13px 0 10px 0; // mobile
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-
-            @include mq($from: desktop) {
-                padding-bottom: 20px;
-            }
-
-            .bt-more {
-                padding: 5px 22px !important;
-            }
-
-            .btn {
-                margin-right: 10px;
-
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-        }
-        .bt-itinerary,
-        .bt-show-map {
-            @extend .text-b-3;
-            display: flex;
-            align-items: center;
-            padding-top: 0;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .bt-show-map {
-            @include mq($from: desktop) {
-                display: none;
-            }
-        }
-        .bt-more, .bt-contact {
-            font-size: 12px;
-        }
     }
-}
-
-//.leaflet-touch .leaflet-control-zoom {
-// disable zoom controls for desktop and mobile
-.leaflet-control-zoom {
-    //display: none;
-}
-
-.leaflet-pelias-expanded,
-.leaflet-touch .leaflet-pelias-control.leaflet-pelias-expanded {
-    //width: 400px;
 }
 
 /* Swap out the image for search icon when the control is expanded */
@@ -255,20 +189,6 @@
 
 .no-webgl-message {
     display: none;
-}
-
-html.no-webgl .no-webgl-message {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
-    z-index: 1001; /* Ensures visibility in IE8 */
-    padding: 10px;
-    font-family: sans-serif;
-    background-color: lightyellow;
-    border-bottom: 1px solid gold;
 }
 
 #geocoder-search {

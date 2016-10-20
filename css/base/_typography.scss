@@ -7,9 +7,7 @@
 
 body {
     font: 1.7em/1.47 Arial, Verdana, Helvetica, sans-serif; // font-sizing for content 17px / 25px
-    @include mq($until: mobile) {
-        font: 1.5em/2.2; // 15px /22px
-    }
+
 }
 
 /* Set titles weight to normal */
@@ -26,274 +24,27 @@ p {
     margin: 0;
 }
 
-.txt-title {
-    text-transform: uppercase;
-
-}
-
-.txt-title-b-1 {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    letter-spacing: 0.1em;
-    @include mq($from: mobile) {
-        font-size: 13px;
-    }
-}
-
-.txt-title-b-2 {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    letter-spacing: 0.1em;
-}
-
 .txt-title-l-1 {
     font-weight: 300;
-    font-size: 27px;
-    line-height: 1.185em; //32px
     margin-bottom: 20px;
     margin-top: 20px;
-    @include mq($from: desktop) {
-        font-size: 40px;
-        line-height: 1.175em; //47px
-    }
+    font-size: 40px;
+    line-height: 1.175em; //47px
 }
 
 .txt-title-l-2 {
-    font-size: 20px;
     font-weight: 300;
-    line-height: 1.35em; //27px
     margin-bottom: 20px;
-    @include mq($from: desktop) {
-        font-family: Arial, Verdana, Helvetica, sans-serif;
-        font-weight: 300;
-        font-size: 27px;
-        line-height: 1.185em; //32px
-    }
-}
-
-.txt-title-r-1 {
-    font-weight: 300;
-    font-size: 17px;
-    line-height: 1.47em; //25px
-    margin-top: 20px;
-}
-
-/*bold text contenu*/
-.text-b-1 {
-    font-weight: 700;
-    font-size: 9px;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    @include mq($from: desktop) {
-        font-size: 11px;
-    }
-}
-
-.text-b-2 {
-    font-weight: 700;
-    font-size: 10px;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    @include mq($from: desktop) {
-        font-size: 12px;
-    }
-}
-
-.text-b-3 {
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    margin: 10px 0 20px 0;
-    letter-spacing: 0.1em;
-    @include mq($from: desktop) {
-        font-size: 13px;
-    }
-}
-
-.text-b-4 {
-    font-weight: 700;
-    font-size: 15px;
-    text-transform: uppercase;
-    margin: 10px 0 20px 0;
-    letter-spacing: 0.05em;
-    @include mq($from: desktop) {
-        font-size: 20px;
-    }
-}
-
-.text-b-5 {
-    font-weight: 700;
-    font-size: 11px;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-
-/*medium*/
-.text-m-1 {
-    font-weight: 500;
-    font-size: 11px;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    @include mq($from: mobile) {
-        font-size: 12px;
-    }
-}
-
-.text-m-2 {
-    font-weight: 500;
-    font-size: 12px;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    @include mq($from: mobile) {
-        font-size: 13px;
-    }
-}
-
-/*regular*/
-.text-r {
-    font-size: 15px;
-    @include mq($from: desktop) {
-        font-size: 17px;
-    }
-}
-
-.text-r-1 {
-    font-size: 12px;
-    line-height: 1.384em; //18px
-    margin-top: 15px;
-    @include mq($from: desktop) {
-        font-size: 13px;
-        line-height: 1.25em; //15px
-    }
-}
-
-.text-r-2 {
-    font-size: 13px;
-    line-height: 1.385em; //18px
-    @include mq($from: desktop) {
-        font-size: 15px;
-        line-height: 1.466em; //22px
-    }
-}
-
-.text-r-3 {
-    font-size: 17px;
-    line-height: 1.45em; //25px
-    @include mq($from: desktop) {
-        font-size: 20px;
-        line-height: 1.35em; //27px
-    }
-}
-
-.text-r-4 {
-    font-size: 15px;
-    line-height: 1.1333em; //22px
-    @include mq($from: desktop) {
-        font-size: 17px;
-        line-height: 1.45em; //25px
-    }
-}
-
-.text-r-5 {
-    font-size: 20px;
-    @include mq($from: desktop) {
-        font-size: 27px;
-    }
-}
-
-//mix regular light
-.text-r-l-1 {
     font-family: Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 1.45em; //25px
-    @include mq($from: desktop) {
-        font-weight: 300;
-        font-size: 27px;
-        line-height: 1.185em; //32px
-    }
-}
-
-.text-r-l-3 {
-    font-size: 20px;
-    font-family: Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 400;
-    @include mq($from: desktop) {
-        font-size: 27px;
-        font-weight: 300;
-    }
-}
-
-
-.text-r-l-2 {
-    font-family: Arial, Verdana, Helvetica, sans-serif;
-    font-weight: 300;
     font-size: 27px;
     line-height: 1.185em; //32px
 }
 
-/*light*/
-
-.text-l-2 {
-    font-weight: 300;
-    font-size: 27px;
-    line-height: 1.185em; //32px
-
-    @include mq($from: desktop) {
-        font-size: 35px;
-        line-height: 1.1428em; //40px
-    }
-}
-
-.text-l-3 {
-    font-size: 40px;
-
-    @include mq($from: desktop) {
-        font-size: 80px;
-    }
-}
-
-.text-l-4 {
-    font-size: 60px;
-
-    @include mq($from: desktop) {
-        font-size: 80px;
-    }
-}
-
-/*light*/
-.text-t-1 {
-    font-weight: 100;
-    font-size: 35px;
-    line-height: 1.143em; //40px
-    margin: 20px 0;
-    @include mq($from: desktop) {
-        font-size: 47px;
-        line-height: 1.170em; //55px
-    }
-}
-
-.text-t-2 {
-    font-weight: 100;
-    font-size: 27px;
-    @include mq($from: mobile) {
-        font-size: 40px;
-    }
-}
-
-.txt-title-dashed, .txt-title-dashed-large {
+.txt-title-dashed { // todo keep
     @extend .txt-title-l-1;
     font-weight: 100;
     position: relative;
+
     &:before {
         border-bottom: solid 1px;
         border-bottom-color: inherit;
@@ -301,92 +52,18 @@ p {
         display: inline-block;
         height: 100%;
         left: 0;
-        margin-left: -40px;
-        max-height: 75px;
         position: absolute;
         top: -50%;
         vertical-align: middle;
-        width: 20px;
-        @include mq($until: mobile) {
-            max-height: 45px;
-            top: -15px;
-        }
-    }
-    @include mq($from: mobile) {
-        &:before {
-            max-height: 115px;
-            width: 30px;
-            margin-left: -55px;
-        }
-
+        max-height: 115px;
+        width: 30px;
+        margin-left: -55px;
     }
 }
 
-//We need an empty .selector to make it usable with mediaqueries
-.txt-title-dashed-large {
-    &:before {
-        width: 20px;
-    }
-
-}
-
-@include mq($from: desktop) {
-    .txt-title-dashed-large {
-        &:before {
-            width: 84px;
-            margin-left: -($colsize+$gutter+$outgutter);
-        }
-    }
-}
-
-.title-dashed-w-desc {
-    .txt-title-dashed {
-        margin-bottom: 5px;
-    }
-
-    .title-dashed-desc {
-        margin-top: 0;
-        margin-bottom: 40px;
-
-        @include mq($from: mobile) {
-            margin-bottom: 70px;
-        }
-    }
-}
-
-.flag-new, .flag-new-carousel {
-    @extend .text-b-1;
-    color: $color-white;
-    background: $color-orange;
-    padding: 4px 10px;
-    display: inline-block;
-    line-height: 1;
-}
-
-.flag-new {
-    position: absolute;
-    width: inherit;
-    top: 0;
-    left: 0;
-}
-
-.flag-new-carousel {
-
-    .item-2 {
-        display: none;
-    }
-
-    @include mq($from: mobile) {
-        padding: 5px 10px;
 
 
-        .item-1 {
-            display: none;
-        }
-        .item-2 {
-            display: inline;
-        }
-    }
-}
+
+
 
 

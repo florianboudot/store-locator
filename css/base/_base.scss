@@ -21,13 +21,13 @@ html {
 
 body {
     background-color: #ffffff;
-    color: $color-black;
+    color: #000;
     min-height: 100%;
 }
 
 a {
     text-decoration: none;
-    color: $color-black;
+    color: #000;
     cursor: pointer;
 }
 
@@ -62,47 +62,14 @@ input {
     vertical-align: middle;
 }
 
-.hidden-mobile {
-    @include mq ($until: desktop) {
-        display: none !important; //hide in mobile
-    }
-}
-
-.hidden-desktop {
-    display: block; //show in mobile
-    @include mq ($from: tablet) {
-        display: none !important; //hide in mobile
-    }
-}
 
 // cancel cross everywhere on any input type search
 input[type="search"]::-webkit-search-cancel-button {
     display: none;
 }
 
-.border-t {
-    border-top: 1px solid $color-border-block;
-}
 
-.overlay {
-    background-color: rgba(255, 255, 255, 0.75);
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    z-index: 30;
-    height: 100%;
-    .comingsoon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: $color-black;
-        @extend .txt-title-b-1;
-    }
 
-}
 
 .block-media {
     position: relative;
