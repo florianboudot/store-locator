@@ -25,7 +25,7 @@ module.exports = function (grunt) {
     // Ressources path
     var jsPath = './js/';
     var cssPath = './css/';
-    var cssDestinationPath = './styles/';
+    var cssDestinationPath = './compiled-styles/';
     var scssPath = './css/';
     // options for POSTCSS
     var optionsDevPostCSS = {
@@ -59,10 +59,9 @@ module.exports = function (grunt) {
         // Uglify javascript files
         uglify: {
             prod: {
-
                 files: {
-                    'scripts/vendors.min.js': ['js/vendors/*.js'],
-                    'scripts/bundle.min.js': ['scripts/bundle.js']
+                    'compiled-scripts/vendors.min.js': ['js/vendors/*.js'],
+                    'compiled-scripts/bundle.min.js': ['compiled-scripts/scripts/bundle.js']
                 }
             }
         },
