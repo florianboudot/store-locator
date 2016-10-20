@@ -1,0 +1,22 @@
+/*------------------------------------------------------------------------------
+    CSS Document (http://www.w3.org/Style/CSS/)
+
+    author:     Antoine Sanchez
+
+----------------------------------------------------------------------------- */
+$mq-responsive: true;
+
+$color-orange: #BC8952;
+$color-blue: #4078c0;
+$color-red: #BE2A2A;
+$color-border-block: #E0E0E0;
+$color-background-light: #F3F2F1;
+
+@import 'normalize'; // boilerplate
+@import 'vendors/all-vendors'; // framework, OOCSS and more
+
+@import "base/base";
+@import "base/typography";
+@import "base/buttons";
+@import 'layout/all-layout'; // layout breaking points
+@import "modules/store-locator";

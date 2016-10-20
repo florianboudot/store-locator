@@ -1,0 +1,77 @@
+.leaflet-cluster-anim .leaflet-marker-icon,
+.leaflet-cluster-anim .leaflet-marker-shadow {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-marker-shadow {
+    width: 41px;
+    height: 41px;
+    pointer-events: none;
+    position: absolute;
+    left: -5px;
+    top: -16px;
+    background: url(../img/marker-shadow.png) no-repeat 0 0;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+.marker-cluster,
+.marker-default-icon {
+    //transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+
+    .inside {
+        background-color: rgba(255, 255, 255, 1);
+        border: 3px solid rgba(0, 0, 0, 0.2);
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -12px 0 0 -12px;
+        transition: all 200ms ease;
+        z-index: 1;
+
+        span {
+            display: block;
+            text-align: center;
+            line-height: 30px;
+            transform: rotate(45deg);
+            font-size: 11px;
+            margin: 0 auto;
+            font-weight: bold;
+        }
+    }
+
+    &.group-0 .inside { // showrooms
+        border-color: rgba($color-red, 0.6);
+    }
+
+    &.group-1 .inside { // agences
+        border-color: rgba($color-blue, 0.6);
+    }
+}
+.marker-cluster {
+    .inside {
+        width: 35px;
+        height: 35px;
+    }
+    .leaflet-marker-shadow {
+        left: 0;
+        top: -5px;
+    }
+}
+.marker-default-icon {
+    .inside {
+        width: 25px;
+        height: 25px;
+
+    }
+    &.selectedMarker .inside {
+        background-color: $color-orange;
+        border-color: white;
+
+        &:before {
+            display: none;
+        }
+    }
+}

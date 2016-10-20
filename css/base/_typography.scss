@@ -1,0 +1,69 @@
+/* ==========================================================================
+   TYPOGRAPHY.SCSS
+   Typography definitions
+   ========================================================================== */
+
+/* Fonts classes */
+
+body {
+    font: 1.7em/1.47 Arial, Verdana, Helvetica, sans-serif; // font-sizing for content 17px / 25px
+
+}
+
+/* Set titles weight to normal */
+h1, h2, h3, h4 {
+    font-weight: normal;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.txt-title-l-1 {
+    font-weight: 300;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 40px;
+    line-height: 1.175em; //47px
+}
+
+.txt-title-l-2 {
+    font-weight: 300;
+    margin-bottom: 20px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 27px;
+    line-height: 1.185em; //32px
+}
+
+.txt-title-dashed { // todo keep
+    @extend .txt-title-l-1;
+    font-weight: 100;
+    position: relative;
+
+    &:before {
+        border-bottom: solid 1px;
+        border-bottom-color: inherit;
+        content: "";
+        display: inline-block;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: -50%;
+        vertical-align: middle;
+        max-height: 115px;
+        width: 30px;
+        margin-left: -55px;
+    }
+}
+
+
+
+
+
+
+

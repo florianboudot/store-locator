@@ -1,0 +1,220 @@
+.main-container {
+    width: 90%;
+    margin: auto;
+    max-width: 1280px;
+}
+
+.border-t {
+    border-top: 1px solid $color-border-block;
+}
+// geocoder field
+.leaflet-pelias-expanded {
+    margin-bottom: 20px;
+}
+
+// only on page showrooms
+.filter-markers {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+
+    .bt-filter {
+        cursor: pointer;
+        margin-bottom: 0;
+        margin-right: 10px;
+        &.active:not(.filter-all) {
+            cursor: auto;
+        }
+        &.active {
+            background-color: $color-orange;
+            border-color: $color-orange;
+            color: white;
+        }
+        &.filter-agences {
+            color: $color-blue;
+            border-color: $color-blue;
+
+            &:hover, &.active {
+                background-color: $color-blue;
+                color: white;
+            }
+        }
+        &.filter-showrooms {
+            color: $color-red;
+            border-color: $color-red;
+
+            &:hover, &.active {
+                background-color: $color-red;
+                color: white;
+            }
+        }
+    }
+}
+
+#store-locator-container {
+    display: flex;
+    height: 570px;
+}
+
+#map {
+    position: relative;
+    width: 100%;
+    background: rgba(195, 224, 224, 0.88); // #c3e0e0
+}
+
+.gutter-left {
+    padding-left: 55px;
+}
+
+#sidebar {
+    flex: 0 0 420px;
+    width: 420px;
+    background: white;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .btn {
+            padding-right: 2px;
+            padding-left: 2px;
+            /*flex-basis: calc(50% - 5px);*/
+        }
+        .btn-locate-me {
+            /*flex-basis: 100%;*/
+            display: inline-block;
+
+        }
+    }
+
+}
+
+.city-nearby {
+    text-transform: uppercase;
+}
+.list-count {
+    color: $color-orange;
+}
+#stores-list {
+    overflow: auto;
+    margin-top: 30px;
+    border-top: 1px solid $color-border-block;
+
+    .item {
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 9px;
+        border-bottom: 1px solid $color-border-block;
+        line-height: 16px;
+        font-size: 13px;
+        flex-direction: row;
+        transition: background 200ms ease, padding-top 200ms ease;
+
+        &:hover {
+            background: $color-background-light;
+        }
+
+        &.active {
+            cursor: auto;
+            padding-top: 27px;
+            padding-bottom: 5px;
+            padding-left: 50px;
+            background: $color-background-light;
+            flex-direction: column;
+
+        }
+
+        .logo {
+            width: 107px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+
+            img {
+                max-width: 60px;
+                margin: 0 auto;
+            }
+        }
+
+        &.active .logo {
+            width: auto;
+            display: block;
+
+            img {
+                max-width: 100px;
+                margin-top: 3px;
+                margin-bottom: 23px;
+            }
+        }
+
+        .txt {
+            display: block;
+        }
+
+        .infos {
+            padding-right: 10px;
+        }
+        .title {
+            display: block;
+            font-size: 17px;
+            padding-bottom: 8px;
+        }
+        .address {
+            display: block;
+        }
+
+        .distance {
+            display: inline-block;
+            font-size: 11px;
+        }
+    }
+}
+
+/* Swap out the image for search icon when the control is expanded */
+.leaflet-pelias-control.leaflet-pelias-expanded .leaflet-pelias-search-icon:not(.leaflet-pelias-loading) {
+    background-image: url('../img/search_blue.png');
+}
+
+.no-webgl-message {
+    display: none;
+}
+
+#geocoder-search {
+    position: relative;
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.locator-block-title {
+    @extend .gutter-left;
+    @extend .border-t;
+    padding-top: 13px;
+    padding-bottom: 33px;
+}
+
+#map-fake {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+}
+
+.geocoder-search {
+    width: calc(100% - 156px);
+    display: inline-block;
+}
