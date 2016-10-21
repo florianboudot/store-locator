@@ -7,7 +7,7 @@ module.exports = {
         './js/base'
     ],
     output: {
-        path: path.join(__dirname, 'scripts'),
+        path: path.join(__dirname, 'compiled-scripts'),
         filename: 'bundle.js',
         publicPath: ''
     },

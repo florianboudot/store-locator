@@ -5,7 +5,6 @@
 module.exports = function (grunt) {
 
     // Load tasks
-
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-combine-media-queries');
     grunt.loadNpmTasks('grunt-postcss');
@@ -27,6 +26,7 @@ module.exports = function (grunt) {
     var cssPath = './css/';
     var cssDestinationPath = './compiled-styles/';
     var scssPath = './css/';
+    
     // options for POSTCSS
     var optionsDevPostCSS = {
         options: {
@@ -39,6 +39,8 @@ module.exports = function (grunt) {
             src: cssDestinationPath + 'all.css'
         }
     };
+    
+    
     var optionsProdPostCSS = {
         options: {
             map: false,
@@ -61,7 +63,7 @@ module.exports = function (grunt) {
             prod: {
                 files: {
                     'compiled-scripts/vendors.min.js': ['js/vendors/*.js'],
-                    'compiled-scripts/bundle.min.js': ['compiled-scripts/scripts/bundle.js']
+                    'compiled-scripts/bundle.min.js': ['compiled-scripts/bundle.js']
                 }
             }
         },
