@@ -1,10 +1,10 @@
 var getTpl = require("./libs/get-tpl").default;
 
 var mStoreLocator = (function () {
+
     // SETTINGS
     var $body = $('body');
     var map_id = 'map';
-    var isMapPage = false;
     var $map = $('#' + map_id);
     var json_url = $map.data('json-url');
     var style_url = 'mapbox://styles/mapbox/streets-v9'; // account 'frontmodem'
@@ -12,6 +12,8 @@ var mStoreLocator = (function () {
     var coords = [47.27177506640826, 2.724609375]; // france
     var mapzen_key = 'search-GmnWoUR'; // account 'frontmodem'
     L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot
+
+
     var status = {
         markers_in_view: 0,
         markers: [],
@@ -42,6 +44,11 @@ var mStoreLocator = (function () {
     var ZOOM_TO_BUILD_LIST = 10;
     var ZOOM_DISABLE_CLUSTERS = ZOOM_TO_BUILD_LIST;
 
+    // map
+    var map = L.mapbox.map(map_id); // map object
+    L.mapbox.styleLayer(style_url).addTo(map); // map style
+    map.setView(coords, ZOOM_DEFAULT);// init map position
+
     // custom icon
     var html_icon = function (c) {
         return L.divIcon({
@@ -52,7 +59,6 @@ var mStoreLocator = (function () {
 
     // vars
     var current_group = 'all'; // default
-    var map = null; // map obj
 
     // geolocation error callback
     var errorCallback = function (error) {
@@ -98,61 +104,37 @@ var mStoreLocator = (function () {
     };
 
 
-    // get biggest city by counting occurences
-    var getMainCity = function (items) {
-        if (pm.debug)console.log('getMainCity');
-
-        var main_city = '';
-        var count = 0;
-        if (!items) {
-            if (status.searched_locality != '') {
-                main_city = status.searched_locality;
-            }
-            else if (status.init_destination != '') {
-                main_city = status.init_destination;
-            }
-        }
-        else {
-            var citiesCount = {};
-            items.forEach(function (store) {
-                citiesCount[store.options.city] = (citiesCount[store.options.city] || 0) + 1;
-            });
-            count = items.length;
-
-            main_city = Object.keys(citiesCount).sort(function (a, b) {
-                return citiesCount[b] - citiesCount[a];
-            })[0];
-        }
-        var plus = count >= MAX_RESULTS ? '+' : '';
-        $list_count.html('(' + count + plus + ')');
-
-        // write result
-        $city.html(main_city);
-    };
 
     var clearActiveMarker = function () {
         $list_container.find('.item').removeClass('active');
         $('.selectedMarker').removeClass('selectedMarker');
     };
 
-    var TIMEOUT = null;
+    var TIMEOUT_OPEN_POPUP = null;
     var TIMEOUT_ACTIVE_MARKER = null;
     var active_marker = null;
 
     // build html items and insert them
     var buildHtmlItem = function (marker) {
         var item = marker.options;
-        var is_type = item.type != undefined;
         var elt = document.createElement('div');
         elt.id = 'item-' + item.id;
-        var is_marker_active = $(marker._icon).hasClass('selectedMarker');
 
+        var is_marker_active = $(marker._icon).hasClass('selectedMarker');
         elt.className = is_marker_active ? 'item active' : 'item';
-        elt.className += is_type ? ' always-open' : '';
         active_marker = is_marker_active ? marker : active_marker;
         elt.setAttribute('data-distance', item.distance);
-        item.distance = item.distance > 0 && !is_type ? `<span class="txt distance">(${item.distance} km)</span>` : '';
-        item.type = is_type ? (item.type == '0' ? 'showroom' : 'agence') : undefined;
+        item.distance = item.distance > 0 ? `<span class="txt distance">(${item.distance} km)</span>` : '';
+
+        var markerOpenPopup = function () {
+            clearTimeout(TIMEOUT_OPEN_POPUP);
+            clearTimeout(TIMEOUT_ACTIVE_MARKER);
+            TIMEOUT_OPEN_POPUP = setTimeout(function () {
+                if (!marker.getPopup()._isOpen) {
+                    marker.openPopup();
+                }
+            }, 150);
+        };
 
         // template html
         elt.innerHTML = getTpl(item, 'tpl-list-item');
@@ -166,26 +148,20 @@ var mStoreLocator = (function () {
 
             // open / close item
             $(this).toggleClass('active', is_open);
-            is_open && $(this).trigger('open');
 
+            // map to marker
             map.setView(marker.getLatLng(), ZOOM_LOCATE_ME, {animate: true});
         });
 
-        $(elt).on('mouseenter', function () {
-            clearTimeout(TIMEOUT);
-            clearTimeout(TIMEOUT_ACTIVE_MARKER);
-            TIMEOUT = setTimeout(function () {
-                if (!marker.getPopup()._isOpen) {
-                    marker.openPopup();
-                }
-            }, 150);
-        });
+        $(elt).on('mouseenter', markerOpenPopup);
 
         $(elt).on('mouseleave', function () {
-            clearTimeout(TIMEOUT);
+            // show active marker popup
+            clearTimeout(TIMEOUT_OPEN_POPUP);
             if (marker.getPopup()._isOpen && !$(this).hasClass('active')) {
                 marker.closePopup();
             }
+
             if (active_marker) {
                 clearTimeout(TIMEOUT_ACTIVE_MARKER);
                 TIMEOUT_ACTIVE_MARKER = setTimeout(function () {
@@ -257,8 +233,8 @@ var mStoreLocator = (function () {
      * buildListItems
      * @param {Object} params
      */
-    var buildListFromMarkersInView = function (params = {}) {
-        if (pm.debug)console.trace('buildListFromMarkersInView', params);
+    var buildListFromMarkersInView = function () {
+        if (pm.debug)console.trace('buildListFromMarkersInView');
 
         // reset
         list_container.innerHTML = '';
@@ -270,7 +246,7 @@ var mStoreLocator = (function () {
         if (is_results) {
             if (pm.debug)console.log('buildListFromMarkersInView has results');
 
-            // sort items
+            // sort items by distance
             stores_in_view.sort(function (a, b) {
                 return a.options.distance - b.options.distance;
             });
@@ -278,12 +254,6 @@ var mStoreLocator = (function () {
             // update list items
             stores_in_view.forEach(buildHtmlItem);
             scrollListToActiveItem();
-            getMainCity(stores_in_view);
-        }
-        else {
-            if (pm.debug)console.log('buildListFromMarkersInView has no results');
-
-            getMainCity();
         }
 
         return is_results;
@@ -424,6 +394,7 @@ var mStoreLocator = (function () {
 
     var switchMarkers = function () {
         if (pm.debug)console.log('switchMarkers');
+
         var $bt = $(this);
         var checked_type = $bt.data('place-type');
 
@@ -443,13 +414,14 @@ var mStoreLocator = (function () {
                     }
                 }
             }
+
             handleListLayout();
         }
     };
 
     var onMapMoveEnd = function () {
         if (pm.debug)console.log('MapMoveEnd');
-        handleListLayout({action: 'move'});
+        handleListLayout();
     };
 
     var bindMapMove = function () {
@@ -544,12 +516,12 @@ var mStoreLocator = (function () {
             placeholder: $geocoder_div.data('input-placeholder'),
             autocomplete: false // if false will use '/search' service url instead of '/autocomplete'
         })
-            .on('highlight', locationHighlighted)
-            .on('select', locationSelected)
-            .on('results', function (e) {
-                first_result[i] = e.results.features[0];
-            })
-            .addTo(map);
+        .on('highlight', locationHighlighted)
+        .on('select', locationSelected)
+        .on('results', function (e) {
+            first_result[i] = e.results.features[0];
+        })
+        .addTo(map);
 
         var input = my_geocoder[i]._input;
         var $input = $(input);
@@ -624,50 +596,28 @@ var mStoreLocator = (function () {
      * init
      */
     var init = function () {
-        if (document.querySelector('#' + map_id)) {
-            isMapPage = true;
 
-            // init map (mapbox is build on top of leaflet)
-            map = L.mapbox.map(map_id);
+        $list_container.on('mouseenter', unbindMapMove).on('mouseleave', bindMapMove);
+        bindMapMove();
 
+        // load json
+        $.ajax({
+            url: json_url,
+            dataType: "json"
+        }, false)
+        .done(addMarkers)
+        .then(function () {
+            // bind buttons (page agences et showrooms)
+            $filters.on('click', switchMarkers);
+            map.on('click', clearActiveMarker);
+            // toggle list map
+            $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
+            // page showrooms and agences (or DR:directions regionales)
+            let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
+            // first init
+            DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
+        });
 
-            // set max zoom
-            var max_zoom = $('#' + map_id).data('max-zoom');
-            if (max_zoom) {
-                map.options.maxZoom = max_zoom;
-            }
-
-            // map style
-            L.mapbox.styleLayer(style_url).addTo(map);
-
-            // init map position
-            map.setView(coords, ZOOM_DEFAULT);
-
-            $list_container.on('mouseenter', unbindMapMove).on('mouseleave', bindMapMove);
-            bindMapMove();
-
-            // load json
-            $.ajax({
-                url: json_url,
-                dataType: "json"
-            }, false)
-            .done(addMarkers)
-            .then(function () {
-                // bind buttons (page agences et showrooms)
-                $filters.on('click', switchMarkers);
-
-                map.on('click', clearActiveMarker);
-
-                // toggle list map
-                $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
-
-                // page showrooms and agences (or DR:directions regionales)
-                let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
-
-                // first init
-                DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
-            });
-        }
         if ($geocoder_divs.length > 0) {
             // insert geocoder in html (mapzen search)
             $geocoder_divs.each(buildGeocoder);
@@ -675,8 +625,6 @@ var mStoreLocator = (function () {
 
         // handle geolocation buttons
         geolocationButtons();
-
-        window._map = map;
     };
 
     return {
