@@ -13,6 +13,7 @@ body {
 /* Set titles weight to normal */
 h1, h2, h3, h4 {
     font-weight: normal;
+    margin: 0;
 }
 
 ul, li {
@@ -27,7 +28,6 @@ p {
 .txt-title-l-1 {
     font-weight: 300;
     margin-bottom: 20px;
-    margin-top: 20px;
     font-size: 40px;
     line-height: 1.175em; //47px
 }

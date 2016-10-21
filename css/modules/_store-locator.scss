@@ -66,10 +66,6 @@
     background: rgba(195, 224, 224, 0.88); // #c3e0e0
 }
 
-.gutter-left {
-    padding-left: 55px;
-}
-
 #sidebar {
     flex: 0 0 420px;
     width: 420px;
@@ -107,7 +103,6 @@
 }
 #stores-list {
     overflow: auto;
-    margin-top: 30px;
     border-top: 1px solid $color-border-block;
 
     .item {
@@ -116,24 +111,23 @@
         display: flex;
         padding-top: 12px;
         padding-bottom: 9px;
+        padding-left: 10px;
         border-bottom: 1px solid $color-border-block;
         line-height: 16px;
         font-size: 13px;
         flex-direction: row;
-        transition: background 200ms ease, padding-top 200ms ease;
+        transition: background 200ms ease, padding 200ms ease;
 
         &:hover {
-            background: $color-background-light;
+            background: #f9f2eb;
         }
 
         &.active {
             cursor: auto;
-            padding-top: 27px;
-            padding-bottom: 5px;
-            padding-left: 50px;
             background: $color-background-light;
             flex-direction: column;
-
+            padding-top: 20px;
+            padding-bottom: 18px;
         }
 
         .logo {
@@ -177,6 +171,7 @@
 
         .distance {
             display: inline-block;
+            color: $color-orange;
             font-size: 11px;
         }
     }
@@ -202,9 +197,6 @@
 }
 
 .locator-block-title {
-    @extend .gutter-left;
-    @extend .border-t;
-    padding-top: 13px;
     padding-bottom: 33px;
 }
 
