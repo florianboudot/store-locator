@@ -1993,6 +1993,7 @@ body {
 /* Set titles weight to normal */
 h1, h2, h3, h4 {
     font-weight: normal;
+    margin: 0;
 }
 
 ul, li {
@@ -2007,7 +2008,6 @@ p {
 .txt-title-l-1, .txt-title-dashed {
     font-weight: 300;
     margin-bottom: 20px;
-    margin-top: 20px;
     font-size: 40px;
     line-height: 1.175em;
 }
@@ -2100,7 +2100,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
     max-width: 1280px;
 }
 
-.border-t, .locator-block-title {
+.border-t {
     border-top: 1px solid #E0E0E0;
 }
 
@@ -2177,10 +2177,6 @@ button.btn:not(.btn-medium):not(.btn-main) {
     background: rgba(195, 224, 224, 0.88);
 }
 
-.gutter-left, .locator-block-title {
-    padding-left: 55px;
-}
-
 #sidebar {
     -webkit-flex: 0 0 420px;
         -ms-flex: 0 0 420px;
@@ -2233,7 +2229,6 @@ button.btn:not(.btn-medium):not(.btn-main) {
 
 #stores-list {
     overflow: auto;
-    margin-top: 30px;
     border-top: 1px solid #E0E0E0;
 }
 
@@ -2245,28 +2240,28 @@ button.btn:not(.btn-medium):not(.btn-main) {
     display: flex;
     padding-top: 12px;
     padding-bottom: 9px;
+    padding-left: 10px;
     border-bottom: 1px solid #E0E0E0;
     line-height: 16px;
     font-size: 13px;
     -webkit-flex-direction: row;
         -ms-flex-direction: row;
             flex-direction: row;
-    transition: background 200ms ease, padding-top 200ms ease;
+    transition: background 200ms ease, padding 200ms ease;
 }
 
 #stores-list .item:hover {
-    background: #F3F2F1;
+    background: #f9f2eb;
 }
 
 #stores-list .item.active {
     cursor: auto;
-    padding-top: 27px;
-    padding-bottom: 5px;
-    padding-left: 50px;
     background: #F3F2F1;
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
+    padding-top: 20px;
+    padding-bottom: 18px;
 }
 
 #stores-list .item .logo {
@@ -2318,6 +2313,7 @@ button.btn:not(.btn-medium):not(.btn-main) {
 
 #stores-list .item .distance {
     display: inline-block;
+    color: #BC8952;
     font-size: 11px;
 }
 
@@ -2341,7 +2337,6 @@ button.btn:not(.btn-medium):not(.btn-main) {
 }
 
 .locator-block-title {
-    padding-top: 13px;
     padding-bottom: 33px;
 }
 
