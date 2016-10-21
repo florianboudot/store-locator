@@ -8,11 +8,8 @@ var mStoreLocator = (function () {
     var $map = $('#' + map_id);
     var json_url = $map.data('json-url');
     var style_url = 'mapbox://styles/mapbox/streets-v9'; // account 'frontmodem'
-    var init_coords = [$map.data('coord-lat'), $map.data('coord-lng')];
 
-    var default_coords = [47.27177506640826, 2.724609375]; // france
-    var is_init_coords = init_coords[0] && init_coords[0] != '';
-    var coords = is_init_coords ? init_coords : default_coords; // france
+    var coords = [47.27177506640826, 2.724609375]; // france
     var mapzen_key = 'search-GmnWoUR'; // account 'frontmodem'
     L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot
     var status = {
@@ -41,7 +38,7 @@ var mStoreLocator = (function () {
     var MAX_RESULTS = 99;
     var CLUSTER_RADIUS = 55;
     var ZOOM_LOCATE_ME = 13;
-    var ZOOM_DEFAULT = is_init_coords ? ZOOM_LOCATE_ME : 5;
+    var ZOOM_DEFAULT = 5;
     var ZOOM_TO_BUILD_LIST = 10;
     var ZOOM_DISABLE_CLUSTERS = ZOOM_TO_BUILD_LIST;
 
@@ -262,8 +259,6 @@ var mStoreLocator = (function () {
      */
     var buildListFromMarkersInView = function (params = {}) {
         if (pm.debug)console.trace('buildListFromMarkersInView', params);
-
-        var action = params.action || null;
 
         // reset
         list_container.innerHTML = '';
@@ -674,7 +669,6 @@ var mStoreLocator = (function () {
             });
         }
         if ($geocoder_divs.length > 0) {
-            map = map || L.mapbox.map('map-fake').setView(coords, ZOOM_DEFAULT);
             // insert geocoder in html (mapzen search)
             $geocoder_divs.each(buildGeocoder);
         }
@@ -689,5 +683,6 @@ var mStoreLocator = (function () {
         init: init
     }
 })();
+
 
 export default mStoreLocator;
