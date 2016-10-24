@@ -110,16 +110,6 @@
         "place_type": 1
     },
     {
-        "name": "yesss stchamond",
-        "add_1": "parc d activite de stelytec",
-        "add_2": "gentialon",
-        "cp": 42400,
-        "city": "saint chamond",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
-    },
-    {
         "name": "rexel creil",
         "add_1": "41 rue benoit frachon",
         "add_2": 0,
@@ -3170,16 +3160,6 @@
         "place_type": 1
     },
     {
-        "name": "mequisa metz",
-        "add_1": "actipole - 16 rue des feivres",
-        "add_2": "bp 75220",
-        "cp": 57076,
-        "city": "metz",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
-    },
-    {
         "name": "rexel roncq",
         "add_1": "allée des 3 lions",
         "add_2": 0,
@@ -3528,16 +3508,6 @@
         "lng": 2.0950100,
         "lat": 50.3774000,
         "place_type": 1
-    },
-    {
-        "name": "sanelec calais",
-        "add_1": "300, rue marcel doret",
-        "add_2": "bp-256",
-        "cp": 62100,
-        "city": "calais cedex",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
     },
     {
         "name": "yesss dijon",
@@ -8620,16 +8590,6 @@
         "place_type": 0
     },
     {
-        "name": "cso stjunien",
-        "add_1": "le pavillon",
-        "add_2": "bp 5",
-        "cp": 87201,
-        "city": "saint junien cedex",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 1
-    },
-    {
         "name": "cle roanne",
         "add_1": "104 rue jean baptiste clement",
         "add_2": 0,
@@ -13030,16 +12990,6 @@
         "place_type": 1
     },
     {
-        "name": "sisca-sidv itxassou",
-        "add_1": "lotissement d alzuyeta",
-        "add_2": 0,
-        "cp": 64250,
-        "city": "itxassou",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
-    },
-    {
         "name": "sisca sidv carcassonn",
         "add_1": "1 avenue thomas edison",
         "add_2": "zone industrielle arnouzette",
@@ -13538,16 +13488,6 @@
         "lng": -2.9575000,
         "lat": 48.0411000,
         "place_type": 0
-    },
-    {
-        "name": "cabus raul rousset",
-        "add_1": "parc club lot 22",
-        "add_2": 0,
-        "cp": 13106,
-        "city": "rousset cedex",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 1
     },
     {
         "name": "rexel angouleme",
@@ -15420,16 +15360,6 @@
         "place_type": 0
     },
     {
-        "name": "sisca-sidv angouleme",
-        "add_1": "zone industrielle 3",
-        "add_2": 0,
-        "cp": 16160,
-        "city": "gond pontouvre",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 1
-    },
-    {
         "name": "dupont luneville",
         "add_1": "36 avenue de l'europe",
         "add_2": 0,
@@ -16050,16 +15980,6 @@
         "place_type": 1
     },
     {
-        "name": "maillard mortagne",
-        "add_1": "zone artisanale de la gare",
-        "add_2": 0,
-        "cp": 61400,
-        "city": "saint langis les mortagne",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
-    },
-    {
         "name": "rexel niort bes",
         "add_1": "14 rue du vigneau de souche",
         "add_2": 0,
@@ -16128,16 +16048,6 @@
         "lng": -0.3473000,
         "lat": 49.2152000,
         "place_type": 1
-    },
-    {
-        "name": "rexel-cvv meung/loir",
-        "add_1": "zac synergie val de loire",
-        "add_2": 0,
-        "cp": 45130,
-        "city": "baule",
-        "lng": 0,
-        "lat": 0,
-        "place_type": 0
     },
     {
         "name": "appro avignon",
