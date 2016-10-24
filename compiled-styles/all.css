@@ -2100,6 +2100,22 @@ button.btn:not(.btn-medium):not(.btn-main) {
     max-width: 1280px;
 }
 
+.github {
+    padding: 40px 10px;
+    font-style: italic;
+    font-size: 13px;
+    text-align: right;
+}
+
+.github a {
+    color: #BC8952;
+    text-decoration: underline;
+}
+
+.github a:hover {
+    text-decoration: none;
+}
+
 .border-t {
     border-top: 1px solid #E0E0E0;
 }
