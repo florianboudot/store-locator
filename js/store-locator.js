@@ -342,8 +342,8 @@ var mStoreLocator = (function () {
         var opt = {};
 
         opt.id = id;
-        opt.lat = data.lat.toString().replace(',', '.'); // todo cleanup json instead
-        opt.lng = data.lng.toString().replace(',', '.');
+        opt.lat = data.lat;
+        opt.lng = data.lng;
 
         opt.title = data.name;
         opt.zip = data.cp;
