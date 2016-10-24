@@ -9,7 +9,7 @@ var mStoreLocator = (function () {
     var json_url = $map.data('json-url');
     var style_url = 'mapbox://styles/mapbox/streets-v9'; // account 'frontmodem'
 
-    var coords = [47.27177506640826, 2.724609375]; // france
+    var coords = [48.85997166258356, 2.3411178588867188]; // paris // [47.27177506640826, 2.724609375]; // france
     var mapzen_key = 'search-GmnWoUR'; // account 'frontmodem'
     L.mapbox.accessToken = 'pk.eyJ1IjoiZnJvbnRtb2RlbSIsImEiOiJjaW5rZWJhbG4wMDdid2RrbHpobXprMGU4In0.s1setfNbyr3j18SLFSa_kA'; // florian boudot
 
@@ -17,7 +17,6 @@ var mStoreLocator = (function () {
     var status = {
         markers_in_view: 0,
         markers: [],
-        searched_locality: '',
         init_destination: $map.data('destination')
     };
 
@@ -28,11 +27,10 @@ var mStoreLocator = (function () {
     var $geocoder_divs = $('.js-geocoder-search');
     var $sidebar = $('#sidebar');
     var $btn_locate_me = $('.js-locate-me');
-    var $city = $('.city-nearby');
 
     // vars
     var $list_count = $('.list-count');
-    var my_geocoder = []; // geocoder fields
+    var my_geocoder = null; // geocoder field
     var first_result = []; // array of objects
     var geomarker;
 
@@ -40,14 +38,16 @@ var mStoreLocator = (function () {
     var MAX_RESULTS = 99;
     var CLUSTER_RADIUS = 55;
     var ZOOM_LOCATE_ME = 13;
-    var ZOOM_DEFAULT = 5;
-    var ZOOM_TO_BUILD_LIST = 10;
-    var ZOOM_DISABLE_CLUSTERS = ZOOM_TO_BUILD_LIST;
+    var ZOOM_DEFAULT = 12;
+    var ZOOM_TO_BUILD_LIST = 5;
+    var ZOOM_DISABLE_CLUSTERS = 10;
 
     // map
     var map = L.mapbox.map(map_id); // map object
     L.mapbox.styleLayer(style_url).addTo(map); // map style
     map.setView(coords, ZOOM_DEFAULT);// init map position
+
+    window._map = map; // debug
 
     // custom icon
     var html_icon = function (c) {
@@ -60,6 +60,19 @@ var mStoreLocator = (function () {
     // vars
     var current_group = 'all'; // default
 
+
+
+    var geolocationButtons = function () {
+        if ($btn_locate_me.length > 0) {
+            if ("geolocation" in navigator) {
+                $btn_locate_me.on('click', geolocateMe);
+            }
+            else {
+                $btn_locate_me.hide();
+            }
+        }
+    };
+
     // geolocation error callback
     var errorCallback = function (error) {
         if (pm.debug)console.error('error', error);
@@ -67,6 +80,7 @@ var mStoreLocator = (function () {
 
     // map to my position
     var geolocateMe = function () {
+        resetGeocoder();
 
         var successCallback = function (position) {
             map.setView({
@@ -92,18 +106,10 @@ var mStoreLocator = (function () {
         }
     };
 
-    var resetGeoFields = function () {
-        if (my_geocoder.length > 0) {
-            for (var i = 0; i < my_geocoder.length; i++) {
-                my_geocoder[i]._input.value = '';
-                my_geocoder[i]._results.style.display = 'none';
-                my_geocoder[i]._results.innerHTML = '';
-                L.DomUtil.addClass(my_geocoder[i]._reset, 'leaflet-pelias-hidden');
-            }
-        }
+    var resetGeocoder = function () {
+        my_geocoder.reset();
+        clearMarker();
     };
-
-
 
     var clearActiveMarker = function () {
         $list_container.find('.item').removeClass('active');
@@ -124,7 +130,7 @@ var mStoreLocator = (function () {
         elt.className = is_marker_active ? 'item active' : 'item';
         active_marker = is_marker_active ? marker : active_marker;
         elt.setAttribute('data-distance', item.distance);
-        item.distance = item.distance > 0 ? `<span class="txt distance">(${item.distance} km)</span>` : '';
+        item.distance = item.distance > 0 ? `<span class="txt distance">distance to center : ${item.distance} km</span>` : '';
 
         var markerOpenPopup = function () {
             clearTimeout(TIMEOUT_OPEN_POPUP);
@@ -229,9 +235,14 @@ var mStoreLocator = (function () {
     };
 
 
+    var countListItems = function (items) {
+        var count = items.length || 'none';
+        var plus = count >= MAX_RESULTS ? '+' : '';
+        $list_count.html('(' + count + plus + ')');
+    };
+
     /**
-     * buildListItems
-     * @param {Object} params
+     * buildListFromMarkersInView
      */
     var buildListFromMarkersInView = function () {
         if (pm.debug)console.trace('buildListFromMarkersInView');
@@ -256,6 +267,8 @@ var mStoreLocator = (function () {
             scrollListToActiveItem();
         }
 
+        countListItems(stores_in_view);
+
         return is_results;
     };
 
@@ -263,14 +276,12 @@ var mStoreLocator = (function () {
     var handleListLayout = function (param) {
         if (pm.debug)console.trace('handleListLayout');
 
-        if (!list_container) {
-            return;
-        }
         if (map.getZoom() >= ZOOM_TO_BUILD_LIST) {
             buildListFromMarkersInView(param);
         }
         else {
             list_container.innerHTML = 'aucun résultat';
+            countListItems([]);
         }
     };
 
@@ -469,127 +480,38 @@ var mStoreLocator = (function () {
             map.closePopup();
         }
 
-        if (obj.feature) { // if selected in autocomplete list
-            status.searched_locality = obj.feature.properties.name;
-        }
-
-        //if we have an input or the event containing an input
-        let $form = this.tagName === 'INPUT' ? $(this) : $(this._input).parents('form:first');
-
-        //if we have a form we submit it
-        if ($form.length) {
-            $form.submit();
-        }
-
-        //if we already are on the storeloc page
-        if (list_container) {
-            // zoom to selected result
-            map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: true});
-            buildListFromMarkersInView();
-        }
+        // zoom to selected result
+        map.setView(obj.latlng, ZOOM_LOCATE_ME, {animate: true});
+        buildListFromMarkersInView();
     };
 
-    var buildGeocoder = function (i, o) {// geocoder
-        // mapzen documentation :  https://mapzen.com/documentation/search/search/
-        var $geocoder_div = $(o);
-        var $form = $geocoder_div.parents('form').first();//todo proper way to target form
-        var is_form = $form.length > 0;
-        my_geocoder[i] = new L.control.geocoder(mapzen_key, {
-            fullWidth: false,
-            expanded: true,
-            markers: L.icon({
-                iconUrl: 'http://nur-antsan.equesto.fr/pm/legrand/html/img/skin/logo-legrand.png',
-                iconRetinaUrl: 'http://nur-antsan.equesto.fr/pm/legrand/html/img/skin/logo-legrand.png',
-                iconSize: [0, 0], // size of the icon
-                shadowSize: [0, 0], // size of the shadow
-                iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-                shadowAnchor: [0, 0], // the same for the shadow
-                popupAnchor: [0, 0] // point from which the popup should open relative to the iconAnchor
 
-            }), // add marker for selected result
-            country: 'FRA', // restrict results to FRANCE (added by flobou)
-            querySize: 80, // number of results in the query (added by flobou)
-            resultsSize: 10, // (added by flobou)
-            allowSubmit: is_form,
+    var buildGeocoder = function () {// geocoder
+        // mapzen documentation :  https://mapzen.com/documentation/search/search/
+        var $geocoder_div = $(this);
+        my_geocoder = new L.control.geocoder(mapzen_key, {
+            fullWidth: false,
+            expanded: true, // width (css)
+            params: {
+                'boundary.country': 'FRA' // restricts results to FRANCE
+            },
+            allowSubmit: false,
             layers: 'locality', // 'locality,address'
-            latlng: true,
+            focus: true, // prioritizes results near the center of the current view (or another latlng you pass)
             placeholder: $geocoder_div.data('input-placeholder'),
-            autocomplete: false // if false will use '/search' service url instead of '/autocomplete'
+            autocomplete: true
         })
         .on('highlight', locationHighlighted)
         .on('select', locationSelected)
         .on('results', function (e) {
-            first_result[i] = e.results.features[0];
+            first_result = e.results.features[0];
         })
         .addTo(map);
 
-        var input = my_geocoder[i]._input;
-        var $input = $(input);
-        if (is_form) {
-            $form.on('submit', function (e) {
-                if ($map.length > 0) {
-                    e.preventDefault();
-                    resetGeoFields();
-                    clearMarker();
-                }
+        var input = my_geocoder._input;
+        $geocoder_div.append(my_geocoder._container);
 
-                if (first_result[i]) {
-                    var coordinates = first_result[i].geometry.coordinates; // array
-                    $form.find('#lat').val(coordinates[1]);
-                    $form.find('#lng').val(coordinates[0]);
-                }
-            });
-        }
-
-        $input.on('keydown', function (e) {
-            //todo request results if not displayed (timeout 400ms)
-            let _this = this;
-            var is_list_item_highlighted = $('.leaflet-pelias-selected').length;
-            var is_enter_key = e.keyCode == 13;
-
-            if (first_result[i] && is_enter_key && !is_list_item_highlighted) {// 13 = enter
-                var coordinates = first_result[i].geometry.coordinates; // array
-                status.searched_locality = first_result[i].properties.name; // city name to display if no results
-
-                locationSelected.call(_this, {
-                    'latlng': {
-                        'lat': coordinates[1],
-                        'lng': coordinates[0]
-                    }
-                });
-            }
-        });
-
-        $input.attr('autocomplete', 'off');
-
-        if ($geocoder_div.data('input-class')) {
-            input.className = '';
-            $input.addClass($geocoder_div.data('input-class'));
-        }
-        if ($geocoder_div.data('input-type')) {
-            $input.attr('type', $geocoder_div.data('input-type'));
-        }
-        if ($geocoder_div.data('input-id')) {
-            $input.attr('id', $geocoder_div.data('input-id'));
-            $input.attr('name', $geocoder_div.data('input-id'));
-        }
-
-        $geocoder_div.append(my_geocoder[i]._container);
-
-        // bind/unbind map to allow results list to display panel 2
-        $input.on('focus', unbindMapMove).on('blur', bindMapMove);
-    };
-
-
-    var geolocationButtons = function () {
-        if ($btn_locate_me.length > 0) {
-            if ("geolocation" in navigator) {
-                $btn_locate_me.on('click', geolocateMe);
-            }
-            else {
-                $btn_locate_me.hide();
-            }
-        }
+        $('.js-geocoder-reset').on('click', resetGeocoder);
     };
 
     /**
@@ -602,26 +524,21 @@ var mStoreLocator = (function () {
 
         // load json
         $.ajax({
-            url: json_url,
-            dataType: "json"
-        }, false)
-        .done(addMarkers)
-        .then(function () {
-            // bind buttons (page agences et showrooms)
-            $filters.on('click', switchMarkers);
-            map.on('click', clearActiveMarker);
-            // toggle list map
-            $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
-            // page showrooms and agences (or DR:directions regionales)
-            let DOMBtnactive = $filters.filter('[data-default-marker]')[0];
-            // first init
-            DOMBtnactive ? switchMarkers.apply(DOMBtnactive) : handleListLayout();
-        });
+                url: json_url,
+                dataType: "json"
+            }, false)
+            .done(addMarkers)
+            .then(function () {
+                // bind buttons (page agences et showrooms)
+                $filters.on('click', switchMarkers);
+                map.on('click', clearActiveMarker);
+                // toggle list map
+                $body.on('click', '.js-toggle-list-map', toggleMobileListMapCtrl);
 
-        if ($geocoder_divs.length > 0) {
-            // insert geocoder in html (mapzen search)
-            $geocoder_divs.each(buildGeocoder);
-        }
+                handleListLayout();
+            });
+
+        $geocoder_divs.each(buildGeocoder);
 
         // handle geolocation buttons
         geolocationButtons();
