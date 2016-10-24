@@ -40,8 +40,8 @@
                     locate me
                 </button>
 
-                <button type="button" class="btn btn-medium decli-reverse btn-back js-display-panel" data-display-panel="1">
-                    clear
+                <button type="button" class="btn btn-medium decli-reverse js-geocoder-reset">
+                    reset
                 </button>
             </div>
 
@@ -75,12 +75,6 @@
             </div>
         </div>
 
-        <!-- THE MAP -->
-        <div id="map"
-             data-json-url="json/stores.json"
-             data-coord-lat=""
-             data-coord-lng="">
-        </div>
 
         <!-- TEMPLATE : POPUP MARKER -->
         <script type="text/template" id="marker-popup-content">
@@ -95,9 +89,10 @@
                 </span>
             </div>
         </script>
+
+        <!-- THE MAP -->
+        <div id="map" data-json-url="json/stores.json"></div>
     </div>
-
-
 </div>
 
 
