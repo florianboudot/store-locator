@@ -2,7 +2,7 @@
 Store locator
 
 # demo
-https://kazes.github.io/storelocator/
+https://kazes.github.io/store-locator/
 
 ![storelocator](https://github.com/kazes/storelocator/raw/master/screenshot.png)
 
